@@ -36,15 +36,21 @@ void Player::updateMovement()
     bool moving = false;
     movingHorizontal = false;
 
-    if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
+    if (Keyboard::isKeyPressed(Keyboard::A) && Keyboard::isKeyPressed(Keyboard::D) ||
+        Keyboard::isKeyPressed(Keyboard::Left) && Keyboard::isKeyPressed(Keyboard::Right)) {
+        hitbox.move(0, 0);
+        facingRight = true;
+        moving = false;
+        movingHorizontal = false;
+    }
+    else if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
     {
         hitbox.move(-speed, 0);
         facingRight = false;
         moving = true;
         movingHorizontal = true;
     }
-
-    if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right))
+    else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right))
     {
         hitbox.move(speed, 0);
         facingRight = true;
@@ -54,7 +60,7 @@ void Player::updateMovement()
 
     if ((Keyboard::isKeyPressed(Keyboard::Space) || Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up)) && onGround)
     {
-        velY = -16.f;
+        velY = -20.f;
         onGround = false;
     }
 

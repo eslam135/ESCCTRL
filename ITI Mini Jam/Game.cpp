@@ -9,8 +9,8 @@ using namespace std;
 
 Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
-    bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f}, 0),
-	BGground(1, W * 10000.f, H, { 0.f }, 5),
+    bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f }, 0),
+    BGground(1, W * 10000.f, H, { 0.f }, 5),
     ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
 {
     soundMgr = sm;
@@ -20,28 +20,47 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(WIDTH, HEIGHT);
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
 
-    if(!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
-		std::cerr << "Couldn't load platform texture\n";
-
+    // --- Load textures ---
+    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
+        std::cerr << "Couldn't load platform texture\n";
     if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png"))
         std::cerr << "Couldn't load obstacle texture\n";
 
-    platforms.emplace_back(platformTexture, 800.f, HEIGHT - 400.f, 300.f, 80.f);
-    platforms.emplace_back(platformTexture, 1400.f, HEIGHT - 400.f, 250.f, 80.f);
-    platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 400.f, 400.f, 80.f);
+    const float platformH = 80.f;
+    const float trapW = 100.f;
+    const float trapH = 85.f;
 
-    obstacles.emplace_back(obstacleTexture, 1100.f, HEIGHT - 400.f, 100.f, 85.f);
-    obstacles.emplace_back(obstacleTexture, 1750.f, HEIGHT - 350.f, 100.f, 85.f);
-    obstacles.emplace_back(obstacleTexture, 2800.f, HEIGHT - 300.f, 100.f, 85.f);
+    // --- Platforms ---
+    platforms.emplace_back(platformTexture, 500.f, HEIGHT - 300.f, 300.f, platformH);
+    platforms.emplace_back(platformTexture, 950.f, HEIGHT - 380.f, 250.f, platformH);
+    platforms.emplace_back(platformTexture, 1400.f, HEIGHT - 320.f, 400.f, platformH);
+    platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 420.f, 200.f, platformH);
+    platforms.emplace_back(platformTexture, 2400.f, HEIGHT - 360.f, 300.f, platformH);
+	platforms.emplace_back(platformTexture, 2900.f, HEIGHT - 500.f, 350.f, platformH);
 
-    Texture tex;
-    if (tex.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(tex);
+    // --- Traps (death zones) ---
+    obstacles.emplace_back(obstacleTexture, 800.f, HEIGHT - 200.f - trapH, 120.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 1300.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 1900.f, HEIGHT - 200.f - trapH, 200.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 2300.f, HEIGHT - 200.f - trapH, 120.f, trapH);
 
-    if (tex.loadFromFile("Assets/Props/Tree.png")) propTextures.push_back(tex);
+    obstacles.emplace_back(obstacleTexture, 3000.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3150.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3300.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3450.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3600.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3750.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+    obstacles.emplace_back(obstacleTexture, 3900.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+
+
+    // --- Props ---
+    Texture t;
+    if (t.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(t);
+    if (t.loadFromFile("Assets/Props/Tree.png"))   propTextures.push_back(t);
 
     srand((unsigned)(time(0)));
-    int numProps = 10000; 
-    
+    int numProps = 10000;
+
     for (int i = 0; i < numProps; i++) {
         Sprite s;
         int randomNumberToCReateBushesAndTrees = rand() % propTextures.size();
@@ -49,23 +68,25 @@ Game::Game(float W, float H, SoundManager* sm)
 
         float x = 100.f + (float)(rand()) / RAND_MAX * (WIDTH * 10000.f - 200.f);
         float y = 0;
-        if(randomNumberToCReateBushesAndTrees == 0){
+        if (randomNumberToCReateBushesAndTrees == 0) {
             float groundTop = HEIGHT - 200;
-            y = groundTop - s.getTexture()->getSize().y * 0.4f; 
-            s.setScale(0.4f, 0.4f); 
+            y = groundTop - s.getTexture()->getSize().y * 0.4f;
+            s.setScale(0.4f, 0.4f);
             s.setPosition(x, y);
             leavesProp.push_back(s);
         }
         else {
-			float groundTop = HEIGHT - 50;
+            float groundTop = HEIGHT - 50;
             y = groundTop - s.getTexture()->getSize().y;
-			s.setScale(1.f, 1.f); 
+            s.setScale(1.f, 1.f);
             s.setPosition(x, y);
             treesProp.push_back(s);
         }
-
     }
 }
+
+
+
 
 bool Game::update(float dt)
 {
@@ -104,7 +125,7 @@ void Game::draw(RenderWindow& window)
     ground.draw(window);
 
     for (auto& p : treesProp)
-        window.draw(p);
+        if (isVisible(p)) window.draw(p);
 
     BGground.draw(window);
 
@@ -116,7 +137,7 @@ void Game::draw(RenderWindow& window)
 
 
     for (auto& p : leavesProp)
-        window.draw(p);
+        if (isVisible(p)) window.draw(p);
 }
 
 void Game::syncRunSound()
