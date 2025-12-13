@@ -86,7 +86,7 @@ void Player::updateAnimation()
 
     if (currentState == IDLE) animSpeed = 0.19f;
     else if (currentState == RUN) animSpeed = 0.09f;
-    else animSpeed = 0.2f; 
+    else animSpeed = 0.17f; 
 
     if (timeSince >= animSpeed)
     {

@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include<iostream>
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
@@ -9,7 +9,7 @@ using namespace std;
 
 Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
-    bg(5, W * 10000.f, H, { 0.f, 25.f , 60.f, 110.f , 120.f}, 0),
+    bg(5, W * 10000.f, H, { 0.f, 25.f , 12.f, 110.f , 120.f}, 0),
 	BGground(1, W * 10000.f, H, { 0.f }, 5),
     ground(50.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 0, 0, 0))
 {
@@ -20,13 +20,19 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(WIDTH, HEIGHT);
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
 
-    platforms.emplace_back(800.f, HEIGHT - 250.f, 300.f, 40.f, Color(50, 50, 50));
-    platforms.emplace_back(1400.f, HEIGHT - 350.f, 250.f, 40.f, Color(50, 50, 50));
-    platforms.emplace_back(2000.f, HEIGHT - 200.f, 400.f, 40.f, Color(50, 50, 50));
+    if(!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
+		std::cerr << "Couldn't load platform texture\n";
 
-    obstacles.emplace_back(1100.f, HEIGHT - 220.f, 90.f, 140.f);
-    obstacles.emplace_back(1750.f, HEIGHT - 230.f, 90.f, 140.f);
-    obstacles.emplace_back(2400.f, HEIGHT - 220.f, 90.f, 140.f);
+    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png"))
+        std::cerr << "Couldn't load obstacle texture\n";
+
+    platforms.emplace_back(platformTexture, 800.f, HEIGHT - 400.f, 300.f, 80.f);
+    platforms.emplace_back(platformTexture, 1400.f, HEIGHT - 400.f, 250.f, 80.f);
+    platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 400.f, 400.f, 80.f);
+
+    obstacles.emplace_back(obstacleTexture, 1100.f, HEIGHT - 400.f, 100.f, 85.f);
+    obstacles.emplace_back(obstacleTexture, 1750.f, HEIGHT - 350.f, 100.f, 85.f);
+    obstacles.emplace_back(obstacleTexture, 2800.f, HEIGHT - 300.f, 100.f, 85.f);
 
     Texture tex;
     if (tex.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(tex);
@@ -80,7 +86,7 @@ bool Game::update(float dt)
     else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right)) direction = 1;
 
     if (direction != 0) bg.update(dt, direction, 3, bg.layerCount);
-    bg.update(dt, -1, 2, 3);
+    bg.update(dt, 1, 2, 3);
 
     float px = player.getPosition().x;
     px = max(px, WORLD_LEFT + WIDTH / 2.f);
@@ -99,16 +105,17 @@ void Game::draw(RenderWindow& window)
 
     for (auto& p : treesProp)
         window.draw(p);
+
     BGground.draw(window);
 
 
     for (auto& plat : platforms) plat.draw(window);
     for (auto& o : obstacles) o.draw(window);
 
+    player.draw(window);
 
     for (auto& p : leavesProp)
         window.draw(p);
-    player.draw(window);
 }
 
 void Game::syncRunSound()

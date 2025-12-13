@@ -2,21 +2,53 @@
 
 using namespace sf;
 
-Platform::Platform(float x, float y, float width, float height, Color color)
+Platform::Platform(
+    float x,
+    float y,
+    float width,
+    float height,
+    Color color
+)
 {
-    body.setSize({ width, height });
-    body.setPosition(x, y);
-    body.setFillColor(color);
+    useSprite = false;
+
+    rect.setSize({ width, height });
+    rect.setPosition(x, y);
+    rect.setFillColor(color);
+}
+
+Platform::Platform(
+    const Texture& texture,
+    float x,
+    float y,
+    float width,
+    float height
+)
+{
+    useSprite = true;
+
+    sprite.setTexture(texture);
+
+    Vector2u texSize = texture.getSize();
+    sprite.setScale(
+        width / texSize.x,
+        height / texSize.y
+    );
+
+    sprite.setPosition(x, y);
 }
 
 void Platform::draw(RenderWindow& window)
 {
-    window.draw(body);
+    if (useSprite)
+        window.draw(sprite);
+    else
+        window.draw(rect);
 }
 
 FloatRect Platform::getBounds() const
 {
-    return body.getGlobalBounds();
+    return useSprite
+        ? sprite.getGlobalBounds()
+        : rect.getGlobalBounds();
 }
-
-

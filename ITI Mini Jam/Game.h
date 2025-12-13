@@ -26,6 +26,9 @@ public:
     std::vector<Texture> propTextures;
     std::vector<Sprite> treesProp;
     std::vector<Sprite> leavesProp;
+    sf::Texture platformTexture;
+    sf::Texture obstacleTexture;
+
 
     float WIDTH, HEIGHT;
     float WORLD_LEFT = 0.f;
