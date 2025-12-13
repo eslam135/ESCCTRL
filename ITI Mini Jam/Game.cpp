@@ -1,5 +1,5 @@
 #include "Game.h"
-#include<iostream>
+#include <iostream>
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
@@ -9,9 +9,9 @@ using namespace std;
 
 Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
-    bg(5, W * 10000.f, H, { 0.f, 25.f , 12.f, 110.f , 120.f}, 0),
+    bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f}, 0),
 	BGground(1, W * 10000.f, H, { 0.f }, 5),
-    ground(50.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 0, 0, 0))
+    ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
 {
     soundMgr = sm;
     player.soundMgr = sm;
@@ -101,7 +101,7 @@ void Game::draw(RenderWindow& window)
     window.setView(camera);
     bg.draw(window);  
 
-    ground.draw(window);   
+    ground.draw(window);
 
     for (auto& p : treesProp)
         window.draw(p);
@@ -113,6 +113,7 @@ void Game::draw(RenderWindow& window)
     for (auto& o : obstacles) o.draw(window);
 
     player.draw(window);
+
 
     for (auto& p : leavesProp)
         window.draw(p);

@@ -38,7 +38,6 @@ public:
 
     Game(float W, float H, SoundManager* sm = nullptr);
 
-    // returns true if player died this frame
     bool update(float dt);
     void draw(sf::RenderWindow& window);
     void reset();
