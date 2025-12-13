@@ -143,6 +143,17 @@ bool Game::checkObstacleCollision()
     return false;
 }
 
+bool Game::isVisible(const sf::Sprite& sprite)
+{
+    sf::FloatRect camRect(
+        camera.getCenter().x - WIDTH / 2.f,
+        camera.getCenter().y - HEIGHT / 2.f,
+        WIDTH,
+        HEIGHT
+    );
+    return sprite.getGlobalBounds().intersects(camRect);
+}
+
 void Game::reset()
 {
     player.hitbox.setPosition(300.f, 300.f);

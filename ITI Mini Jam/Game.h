@@ -46,5 +46,6 @@ public:
 private:
     void syncRunSound();
     bool checkObstacleCollision();
+    bool isVisible(const sf::Sprite& sprite);
 };
 

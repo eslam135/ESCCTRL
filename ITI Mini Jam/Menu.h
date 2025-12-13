@@ -11,6 +11,8 @@ public:
     sf::Texture tMenuBg;
     UIButton btnStart, btnOptions, btnExit;
     sf::Texture tStart, tStartHover, tOptions, tOptionsHover, tExit, tExitHover;
+    sf::Texture tTitle;
+    sf::Sprite sTitle;
     SoundManager* soundMgr = nullptr;
 
     Menu(float WIDTH, float HEIGHT, SoundManager* sm = nullptr);
