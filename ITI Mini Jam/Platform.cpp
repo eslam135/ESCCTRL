@@ -55,38 +55,117 @@ FloatRect Platform::getBounds() const
 
 // --- Moving platform methods ---
 
-void Platform::setMoving(float left, float right, float spd)
+void Platform::setMoving(
+    MoveAxis axis, float minB, float maxB,
+    float spd, bool triggered,
+    MoveMode mode
+)
 {
     isMoving = true;
-    leftBound = left;
-    rightBound = right;
+    moveAxis = axis;
+    minBound = minB;
+    maxBound = maxB;
     speed = spd;
     direction = 1;
+    isTriggered = triggered;
+    isActive = !triggered;
+    moveMode = mode;
 }
+
 
 void Platform::update(float dt)
 {
-    if (!isMoving) return;
+    deltaX = deltaY = 0.f;
 
-    if (useSprite)
-        sprite.move(speed * direction * dt, 0.f);
-    else
-        rect.move(speed * direction * dt, 0.f);
+    if (!isMoving || !isActive)
+        return;
 
-    // Reverse direction if out of bounds
-    float x = useSprite ? sprite.getPosition().x : rect.getPosition().x;
-    float width = useSprite ? sprite.getGlobalBounds().width : rect.getSize().x;
+    float movement = speed * direction * dt;
 
-    if (x < leftBound)
+    if (moveAxis == MoveAxis::Horizontal)
     {
-        if (useSprite) sprite.setPosition(leftBound, sprite.getPosition().y);
-        else rect.setPosition(leftBound, rect.getPosition().y);
-        direction = 1;
+        deltaX = movement;
+
+        if (useSprite) sprite.move(movement, 0.f);
+        else rect.move(movement, 0.f);
+
+        float x = useSprite ? sprite.getPosition().x : rect.getPosition().x;
+        float width = getBounds().width;
+
+        if (x < minBound)
+        {
+            if (useSprite)
+                sprite.setPosition(minBound, sprite.getPosition().y);
+            else
+                rect.setPosition(minBound, rect.getPosition().y);
+
+            if (moveMode == MoveMode::PingPong)
+                direction = 1;
+            else
+                isActive = false; // OneWay stops here
+
+            deltaX = 0.f;
+        }
+        else if (x + width > maxBound)
+        {
+            if (useSprite)
+                sprite.setPosition(maxBound - width, sprite.getPosition().y);
+            else
+                rect.setPosition(maxBound - width, rect.getPosition().y);
+
+            if (moveMode == MoveMode::PingPong)
+                direction = -1;
+            else
+                isActive = false;
+
+            deltaX = 0.f;
+        }
     }
-    else if (x + width > rightBound)
+    else // Vertical
     {
-        if (useSprite) sprite.setPosition(rightBound - width, sprite.getPosition().y);
-        else rect.setPosition(rightBound - width, rect.getPosition().y);
-        direction = -1;
+        deltaY = movement;
+
+        if (useSprite) sprite.move(0.f, movement);
+        else rect.move(0.f, movement);
+
+        float y = useSprite ? sprite.getPosition().y : rect.getPosition().y;
+        float height = getBounds().height;
+
+        if (y < minBound)
+        {
+            if (useSprite)
+                sprite.setPosition(sprite.getPosition().x, minBound);
+            else
+                rect.setPosition(rect.getPosition().x, minBound);
+
+            if (moveMode == MoveMode::PingPong)
+                direction = 1;
+            else
+                isActive = false;
+
+            deltaY = 0.f;
+        }
+        else if (y + height > maxBound)
+        {
+            if (useSprite)
+                sprite.setPosition(sprite.getPosition().x, maxBound - height);
+            else
+                rect.setPosition(rect.getPosition().x, maxBound - height);
+
+            if (moveMode == MoveMode::PingPong)
+                direction = -1;
+            else
+                isActive = false;
+
+            deltaY = 0.f;
+        }
     }
+}
+
+
+
+void Platform::activate()
+{
+    if (isTriggered)
+        isActive = true;
 }

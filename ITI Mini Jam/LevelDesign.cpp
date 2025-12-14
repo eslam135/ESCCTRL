@@ -24,8 +24,26 @@ void LevelDesign::loadLevel(std::vector<Platform>& platforms, std::vector<Obstac
     platforms.emplace_back(platformTexture, 1400.f, HEIGHT - 320.f, 400.f, platformH);
     platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 420.f, 200.f, platformH);
     platforms.emplace_back(platformTexture, 2400.f, HEIGHT - 360.f, 300.f, platformH);
-    platforms.emplace_back(platformTexture, 2900.f, HEIGHT - 500.f, 350.f, platformH);
-	platforms.back().setMoving(2850.f, 4000.f, 100.f); // moving platform
+   
+    platforms.emplace_back(platformTexture, 250.f, HEIGHT - 450.f, 200.f, 60.f);
+
+	// ---------Moving platform (horizontal) trial--------- //
+    platforms.back().setMoving(Platform::MoveAxis::Horizontal,
+                              /*left*/ 250.f,   /*right*/ 1100.f,
+                             /*speed*/ 150.f,
+                            /*trigger*/ true, 
+                            Platform::MoveMode::OneWay);
+
+
+    platforms.emplace_back(platformTexture, 1100.f, HEIGHT - 450.f, 200.f, 60.f);
+
+	// ---------Moving platform (vertical) trial--------- //
+    platforms.back().setMoving(Platform::MoveAxis::Vertical,
+                              /*top*/ HEIGHT - 800.f,   /*bottom*/ HEIGHT - 400.f,
+                             /*speed*/ 100.f,
+                            /*trigger*/ true,
+                            Platform::MoveMode::PingPong);
+
 
     // Traps
     obstacles.emplace_back(obstacleTexture, 800.f, HEIGHT - 200.f - trapH, 120.f, trapH);

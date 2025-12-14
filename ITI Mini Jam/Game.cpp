@@ -59,8 +59,6 @@ Game::Game(float W, float H, SoundManager* sm)
 }
 
 
-
-
 bool Game::update(float dt)
 {
     player.updateMovement();
@@ -69,6 +67,12 @@ bool Game::update(float dt)
     // Move platforms
     for (auto& plat : platforms) {
         plat.update(dt);
+    }
+    
+    for (auto& plat : platforms)
+    {
+        if (player.isStandingOn(plat))
+            plat.activate();
     }
 
     // Resolve collisions after movement
@@ -80,6 +84,20 @@ bool Game::update(float dt)
     if (checkObstacleCollision()) {
         return true;
     }
+
+    if (player.onGround)
+    {
+        for (auto& plat : platforms)
+        {
+            if (plat.isMovingPlatform() &&
+                player.isStandingOn(plat))
+            {
+                player.move(plat.getDeltaX(), plat.getDeltaY());
+                break;
+            }
+        }
+    }
+
 
     float direction = 0;
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left)) direction = -1;

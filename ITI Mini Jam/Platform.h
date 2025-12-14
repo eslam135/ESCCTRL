@@ -22,12 +22,37 @@ public:
         float height
     );
 
+    enum class MoveAxis {
+        Horizontal,
+        Vertical
+    };
+
+    enum class MoveMode {
+        PingPong,
+        OneWay
+    };
+
     void draw(sf::RenderWindow& window);
     sf::FloatRect getBounds() const;
 
     // --- Moving platform features ---
-    void setMoving(float leftBound, float rightBound, float speed);
-    void update(float dt); // call this each frame
+    void setMoving(
+        MoveAxis axis,
+        float minBound,
+        float maxBound,
+        float speed,
+        bool triggered = false,
+        MoveMode mode = MoveMode::PingPong
+    );
+
+
+    void update(float dt);
+
+    float getDeltaX() const { return deltaX; }
+    float getDeltaY() const { return deltaY; }
+    bool isMovingPlatform() const { return isMoving; }
+
+    void activate(); // for triggered platforms
 
 private:
     bool useSprite = false;
@@ -35,10 +60,18 @@ private:
     sf::RectangleShape rect;
     sf::Sprite sprite;
 
-    // Moving properties
     bool isMoving = false;
+    bool isTriggered = false;
+    bool isActive = true;
+
+    MoveAxis moveAxis = MoveAxis::Horizontal;
+    MoveMode moveMode = MoveMode::PingPong;
+
     float speed = 0.f;
-    float leftBound = 0.f;
-    float rightBound = 0.f;
-    int direction = 1; // 1 = right, -1 = left
+    float minBound = 0.f;
+    float maxBound = 0.f;
+    int direction = 1;
+
+    float deltaX = 0.f;
+    float deltaY = 0.f;
 };

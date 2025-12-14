@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include "SoundManager.h"
-
 #include <iostream>
 
 using namespace sf;
@@ -126,3 +124,20 @@ bool Player::isMovingHorizontally() const
     return movingHorizontal;
 }
 
+bool Player::isStandingOn(const Platform& platform) const
+{
+    sf::FloatRect p = hitbox.getGlobalBounds();
+    sf::FloatRect b = platform.getBounds();
+
+    const float tolerance = 6.f;
+
+    bool verticallyAligned =
+        p.top + p.height <= b.top + tolerance &&
+        p.top + p.height >= b.top - tolerance;
+
+    bool horizontallyAligned =
+        p.left + p.width > b.left &&
+        p.left < b.left + b.width;
+
+    return verticallyAligned && horizontallyAligned;
+}

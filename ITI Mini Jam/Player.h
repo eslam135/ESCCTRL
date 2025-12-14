@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
-class SoundManager;
+#include "SoundManager.h"
+#include "platform.h"
 
 class Player
 {
@@ -36,5 +36,6 @@ public:
 
     bool isRunningOnGround() const;
     bool isMovingHorizontally() const;
+    bool isStandingOn(const Platform& platform) const;
 };
 
