@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
+#include "LevelDesign.h" 
 
 using namespace sf;
 using namespace std;
@@ -20,84 +21,42 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(WIDTH, HEIGHT);
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
 
+    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
+        std::cerr << "Couldn't load platform texture\n";
+    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png"))
+        std::cerr << "Couldn't load obstacle texture\n";
 
-	// --- Level Design ---
-    LevelDesign level(WIDTH, HEIGHT);
-    level.loadLevel(platforms, obstacles,platformTexture,obstacleTexture);
 
+    LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture);
 
-    // --- Props ---
     Texture t;
     if (t.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(t);
-    if (t.loadFromFile("Assets/Props/Tree.png"))   propTextures.push_back(t);
+    //if (t.loadFromFile("Assets/Props/Tree.png"))    propTextures.push_back(t);
 
-    srand((unsigned)(time(0)));
-    int numProps = 10000;
-
-    for (int i = 0; i < numProps; i++) {
-        Sprite s;
-        int randomNumberToCReateBushesAndTrees = rand() % propTextures.size();
-        s.setTexture(propTextures[randomNumberToCReateBushesAndTrees]);
-
-        float x = 100.f + (float)(rand()) / RAND_MAX * (WIDTH * 10000.f - 200.f);
-        float y = 0;
-        if (randomNumberToCReateBushesAndTrees == 0) {
-            float groundTop = HEIGHT - 200;
-            y = groundTop - s.getTexture()->getSize().y * 0.4f;
-            s.setScale(0.4f, 0.4f);
-            s.setPosition(x, y);
-            leavesProp.push_back(s);
-        }
-        else {
-            float groundTop = HEIGHT - 50;
-            y = groundTop - s.getTexture()->getSize().y;
-            s.setScale(1.f, 1.f);
-            s.setPosition(x, y);
-            treesProp.push_back(s);
-        }
-    }
+    LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
 }
-
 
 bool Game::update(float dt)
 {
     player.updateMovement();
     player.onGround = false;
 
-    // Move platforms
-    for (auto& plat : platforms) {
-        plat.update(dt);
-    }
-    
-    for (auto& plat : platforms)
-    {
-        if (player.isStandingOn(plat))
-            plat.activate();
+    for (auto& p : platforms) {
+        p.update(dt);
     }
 
-    // Resolve collisions after movement
+    for (auto& o : obstacles) {
+        o.update(dt, player.getPosition().x);
+    }
+
     CollisionManager::resolveAll(player, platforms, ground, player.velY, player.onGround);
 
     player.updateAnimation();
     syncRunSound();
 
     if (checkObstacleCollision()) {
-        return true;
+        return true; 
     }
-
-    if (player.onGround)
-    {
-        for (auto& plat : platforms)
-        {
-            if (plat.isMovingPlatform() &&
-                player.isStandingOn(plat))
-            {
-                player.move(plat.getDeltaX(), plat.getDeltaY());
-                break;
-            }
-        }
-    }
-
 
     float direction = 0;
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left)) direction = -1;
@@ -111,14 +70,13 @@ bool Game::update(float dt)
     px = min(px, WORLD_RIGHT - WIDTH / 2.f);
     camera.setCenter(px, HEIGHT / 2.f);
 
-    return false;
+    return false; 
 }
 
 void Game::draw(RenderWindow& window)
 {
     window.setView(camera);
-    bg.draw(window);  
-
+    bg.draw(window);
     ground.draw(window);
 
     for (auto& p : treesProp)
@@ -126,12 +84,10 @@ void Game::draw(RenderWindow& window)
 
     BGground.draw(window);
 
-
     for (auto& plat : platforms) plat.draw(window);
     for (auto& o : obstacles) o.draw(window);
 
     player.draw(window);
-
 
     for (auto& p : leavesProp)
         if (isVisible(p)) window.draw(p);

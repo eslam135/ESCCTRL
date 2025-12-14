@@ -1,32 +1,24 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 
-class Obstacle
-{
+class Obstacle {
 public:
-    Obstacle(
-        float x = 0.f,
-        float y = 0.f,
-        float width = 80.f,
-        float height = 120.f,
-        sf::Color color = sf::Color(180, 40, 40, 220)
-    );
+    enum Type { STATIC, ROTATING, FALLING };
 
-    Obstacle(
-        const sf::Texture& texture,
-        float x,
-        float y,
-        float width,
-        float height
-    );
+    Obstacle(const sf::Texture& texture, float x, float y, float width, float height, Type type = STATIC);
 
+    void update(float dt, float playerX); 
     void draw(sf::RenderWindow& window);
     sf::FloatRect getBounds() const;
 
 private:
-    bool useSprite = false;
-
-    sf::RectangleShape rect;
+    bool useSprite = true; 
     sf::Sprite sprite;
+    Type type;
+
+    
+    float rotationSpeed = 200.f; 
+    bool hasFallen = false;
+    float fallSpeed = 0.f;
+    float startY;
 };

@@ -1,60 +1,87 @@
 #include "LevelDesign.h"
-#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
-LevelDesign::LevelDesign(float gameWidth, float gameHeight)
-    : WIDTH(gameWidth), HEIGHT(gameHeight)
+using namespace std;
+using namespace sf;
+
+void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<Obstacle>& obstacles, const Texture& platformTex, const Texture& obstacleTex)
 {
+    platforms.emplace_back(platformTex, 200.f, height - 200.f, 600.f, 80.f);
+
+    platforms.emplace_back(platformTex, 900.f, height - 300.f, 200.f, 50.f);
+    platforms.emplace_back(platformTex, 1300.f, height - 400.f, 200.f, 50.f);
+
+    Platform lift(platformTex, 1700.f, height - 250.f, 200.f, 50.f);
+    lift.setMovement(0.f, -300.f, 2.f);
+    platforms.push_back(lift);
+
+    obstacles.emplace_back(obstacleTex, 1750.f, height - 350.f, 100.f, 100.f, Obstacle::STATIC);
+
+    platforms.emplace_back(platformTex, 2100.f, height - 550.f, 400.f, 50.f);
+
+    Platform bridge(platformTex, 2600.f, height - 550.f, 500.f, 50.f);
+    platforms.push_back(bridge);
+    obstacles.emplace_back(obstacleTex, 2700.f, height - 900.f, 80.f, 80.f, Obstacle::FALLING);
+    obstacles.emplace_back(obstacleTex, 2900.f, height - 900.f, 80.f, 80.f, Obstacle::FALLING);
+
+    obstacles.emplace_back(obstacleTex, 2600.f, height - 350.f, 100.f, 100.f, Obstacle::STATIC);
+
+    Platform mover1(platformTex, 3300.f, height - 500.f, 150.f, 40.f);
+    mover1.setMovement(300.f, 0.f, 1.5f);
+    platforms.push_back(mover1);
+
+    obstacles.emplace_back(obstacleTex, 3300.f, height - 350.f, 400.f, 100.f, Obstacle::STATIC);
+
+    Platform mover2(platformTex, 3900.f, height - 500.f, 150.f, 40.f);
+    mover2.setMovement(-300.f, 0.f, 1.5f);
+    platforms.push_back(mover2);
+
+    obstacles.emplace_back(obstacleTex, 3900.f, height - 350.f, 400.f, 100.f, Obstacle::STATIC);
+
+    platforms.emplace_back(platformTex, 4200.f, height - 450.f, 200.f, 50.f);
+
+    platforms.emplace_back(platformTex, 4500.f, height - 400.f, 800.f, 50.f);
+    obstacles.emplace_back(obstacleTex, 4700.f, height - 480.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(obstacleTex, 4900.f, height - 480.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(obstacleTex, 5100.f, height - 480.f, 90.f, 90.f, Obstacle::ROTATING);
+
+    platforms.emplace_back(platformTex, 5500.f, height - 300.f, 200.f, 50.f);
+
+    Platform hard(platformTex, 5900.f, height - 300.f, 100.f, 40.f);
+    hard.setMovement(0.f, 200.f, 4.f);
+    platforms.push_back(hard);
+
+    obstacles.emplace_back(obstacleTex, 5900.f, height - 350.f, 150.f, 100.f, Obstacle::STATIC);
+
+    platforms.emplace_back(platformTex, 6300.f, height - 200.f, 500.f, 50.f);
 }
 
-void LevelDesign::loadLevel(std::vector<Platform>& platforms, std::vector<Obstacle>& obstacles, sf::Texture& platformTexture, sf::Texture& obstacleTexture)
+void LevelDesign::buildProps(float width, float height, vector<Sprite>& trees, vector<Sprite>& leaves, const vector<Texture>& propTextures)
 {
-    // Load textures
-    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
-        std::cerr << "Couldn't load platform texture\n";
-    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png"))
-        std::cerr << "Couldn't load obstacle texture\n";
+    srand((unsigned)(time(0)));
+    int numProps = 200;
 
-    const float platformH = 80.f;
-    const float trapW = 100.f;
-    const float trapH = 85.f;
+    for (int i = 0; i < numProps; i++) {
+        Sprite s;
+        int typeIndex = rand() % propTextures.size();
+        s.setTexture(propTextures[typeIndex]);
 
-    // Platforms
-    platforms.emplace_back(platformTexture, 500.f, HEIGHT - 300.f, 300.f, platformH);
-    platforms.emplace_back(platformTexture, 950.f, HEIGHT - 380.f, 250.f, platformH);
-    platforms.emplace_back(platformTexture, 1400.f, HEIGHT - 320.f, 400.f, platformH);
-    platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 420.f, 200.f, platformH);
-    platforms.emplace_back(platformTexture, 2400.f, HEIGHT - 360.f, 300.f, platformH);
-   
-    platforms.emplace_back(platformTexture, 250.f, HEIGHT - 450.f, 200.f, 60.f);
+        float x = 100.f + (float)(rand()) / RAND_MAX * (width * 10.f - 200.f);
+        float y = 0;
+        if (typeIndex == 0) {
+            float groundTop = height - 200;
+            y = groundTop - s.getTexture()->getSize().y * 0.4f;
+            s.setScale(0.4f, 0.4f);
+        }
+        else {
+            float groundTop = height - 50;
+            y = groundTop - s.getTexture()->getSize().y;
+            s.setScale(1.f, 1.f);
+        }
+        s.setPosition(x, y);
 
-	// ---------Moving platform (horizontal) trial--------- //
-    platforms.back().setMoving(Platform::MoveAxis::Horizontal,
-                              /*left*/ 250.f,   /*right*/ 1100.f,
-                             /*speed*/ 150.f,
-                            /*trigger*/ true, 
-                            Platform::MoveMode::OneWay);
-
-
-    platforms.emplace_back(platformTexture, 1100.f, HEIGHT - 450.f, 200.f, 60.f);
-
-	// ---------Moving platform (vertical) trial--------- //
-    platforms.back().setMoving(Platform::MoveAxis::Vertical,
-                              /*top*/ HEIGHT - 800.f,   /*bottom*/ HEIGHT - 400.f,
-                             /*speed*/ 100.f,
-                            /*trigger*/ true,
-                            Platform::MoveMode::PingPong);
-
-
-    // Traps
-    obstacles.emplace_back(obstacleTexture, 800.f, HEIGHT - 200.f - trapH, 120.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 1300.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 1900.f, HEIGHT - 200.f - trapH, 200.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 2300.f, HEIGHT - 200.f - trapH, 120.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3000.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3150.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3300.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3450.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3600.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3750.f, HEIGHT - 200.f - trapH, 150.f, trapH);
-    obstacles.emplace_back(obstacleTexture, 3900.f, HEIGHT - 200.f - trapH, 150.f, trapH);
+        if (typeIndex == 0) leaves.push_back(s);
+        else trees.push_back(s);
+    }
 }

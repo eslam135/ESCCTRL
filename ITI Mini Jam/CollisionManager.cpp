@@ -1,5 +1,4 @@
 #include "CollisionManager.h"
-
 #include <algorithm>
 
 using namespace sf;
@@ -36,8 +35,13 @@ void CollisionManager::resolveWithPlatform(Player& player, const Platform& platf
             player.move(0, -overlapTop);
             playerVelY = 0;
             playerOnGround = true;
+
+            // If the platform moved this frame, carry the player with it!
+            Vector2f shift = platform.getCurrentShift();
+            player.move(shift.x, shift.y);
         }
         else {
+            
             player.move(0, overlapBottom);
             playerVelY = 0;
         }
@@ -50,5 +54,3 @@ void CollisionManager::resolveAll(Player& player, vector<Platform>& platforms, P
     for (auto& p : platforms)
         resolveWithPlatform(player, p, velY, onGround);
 }
-
-

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "Platform.h"
@@ -6,11 +7,19 @@
 
 class LevelDesign {
 public:
-    LevelDesign(float gameWidth, float gameHeight);
+    static void buildLevel(
+        float height,
+        std::vector<Platform>& platforms,
+        std::vector<Obstacle>& obstacles,
+        const sf::Texture& platformTex,
+        const sf::Texture& obstacleTex
+    );
 
-    void loadLevel(std::vector<Platform>& platforms, std::vector<Obstacle>& obstacles, sf::Texture& platformTexture, sf::Texture& obstacleTexture);
-
-private:
-    float WIDTH;
-    float HEIGHT;
+    static void buildProps(
+        float width,
+        float height,
+        std::vector<sf::Sprite>& trees,
+        std::vector<sf::Sprite>& leaves,
+        const std::vector<sf::Texture>& propTextures
+    );
 };
