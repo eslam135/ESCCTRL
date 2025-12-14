@@ -7,6 +7,13 @@
 
 class LevelDesign {
 public:
+    struct SpikeRainZone {
+        float triggerX;
+        float duration;
+        int count;
+        float minX, maxX;
+    };
+
     static void buildLevel(
         float height,
         std::vector<Platform>& platforms,

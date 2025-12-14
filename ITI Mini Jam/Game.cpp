@@ -4,12 +4,14 @@
 #include <ctime>
 #include <cstdlib>
 #include "LevelDesign.h" 
+#include "Level2.h"
 
 using namespace sf;
 using namespace std;
 
 Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
+    rain(80, W, H),
     bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f }, 0),
     BGground(1, W * 10000.f, H, { 0.f }, 5),
     ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
@@ -29,9 +31,12 @@ Game::Game(float W, float H, SoundManager* sm)
         std::cerr << "Couldn't load obstacle texture\n";
     if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png"))
         std::cerr << "Couldn't load thorns texture\n"; //The thorns I added
+    if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png"))
+        std::cerr << "Couldn't load spike texture\n";
 
     // --- 3. BUILD LEVEL ---
     LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture, thornsTexture);
+    Level2::setupSpikeRain(rain, spikeTex);
 
     // --- 4. PROPS ---
     Texture t;
@@ -53,6 +58,12 @@ bool Game::update(float dt)
 
     for (auto& p : platforms) p.update(dt);
     for (auto& o : obstacles) o.update(dt, player.getPosition().x);
+    
+    rain.updateSpikeRain(dt, player.getPosition().x);
+
+    if (rain.checkSpikeCollision(player.getGlobalBounds())) {
+        return true; // player dies
+    }
 
     CollisionManager::resolveAll(player, platforms, ground, player.velY, player.onGround);
 
@@ -126,6 +137,8 @@ void Game::draw(RenderWindow& window)
 
     for (auto& plat : platforms) plat.draw(window);
     for (auto& o : obstacles) o.draw(window);
+
+    rain.drawSpikeRain(window);
 
     player.draw(window);
 

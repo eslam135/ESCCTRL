@@ -8,7 +8,7 @@
 #include "Platform.h"
 #include "Player.h"
 #include "SoundManager.h"
-
+#include "RainSystem.h"
 
 using namespace sf;
 
@@ -30,6 +30,8 @@ public:
     sf::Texture obstacleTexture;
     sf::Texture thornsTexture; //The thorns I added
 
+    Texture spikeTex;
+    RainSystem rain;
 
     float WIDTH, HEIGHT;
     float WORLD_LEFT = 0.f;
