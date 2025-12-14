@@ -25,6 +25,7 @@ void LevelDesign::loadLevel(std::vector<Platform>& platforms, std::vector<Obstac
     platforms.emplace_back(platformTexture, 2000.f, HEIGHT - 420.f, 200.f, platformH);
     platforms.emplace_back(platformTexture, 2400.f, HEIGHT - 360.f, 300.f, platformH);
     platforms.emplace_back(platformTexture, 2900.f, HEIGHT - 500.f, 350.f, platformH);
+	platforms.back().setMoving(2850.f, 4000.f, 100.f); // moving platform
 
     // Traps
     obstacles.emplace_back(obstacleTexture, 800.f, HEIGHT - 200.f - trapH, 120.f, trapH);

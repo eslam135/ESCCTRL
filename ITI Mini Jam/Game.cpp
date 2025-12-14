@@ -66,6 +66,12 @@ bool Game::update(float dt)
     player.updateMovement();
     player.onGround = false;
 
+    // Move platforms
+    for (auto& plat : platforms) {
+        plat.update(dt);
+    }
+
+    // Resolve collisions after movement
     CollisionManager::resolveAll(player, platforms, ground, player.velY, player.onGround);
 
     player.updateAnimation();

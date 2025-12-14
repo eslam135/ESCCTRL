@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 
 class Platform
@@ -26,9 +25,20 @@ public:
     void draw(sf::RenderWindow& window);
     sf::FloatRect getBounds() const;
 
+    // --- Moving platform features ---
+    void setMoving(float leftBound, float rightBound, float speed);
+    void update(float dt); // call this each frame
+
 private:
     bool useSprite = false;
 
     sf::RectangleShape rect;
     sf::Sprite sprite;
+
+    // Moving properties
+    bool isMoving = false;
+    float speed = 0.f;
+    float leftBound = 0.f;
+    float rightBound = 0.f;
+    int direction = 1; // 1 = right, -1 = left
 };
