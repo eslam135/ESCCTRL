@@ -8,7 +8,7 @@
 #include "Platform.h"
 #include "Player.h"
 #include "SoundManager.h"
-
+#include "LevelDesign.h"
 
 using namespace sf;
 
