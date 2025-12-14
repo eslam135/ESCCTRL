@@ -60,6 +60,7 @@ void Player::updateMovement()
     {
         velY = -20.f;
         onGround = false;
+        if (soundMgr) soundMgr->playSFX("jump");
     }
 
     velY += gravity;

@@ -13,9 +13,9 @@ SoundManager::SoundManager()
         cerr << "Warning: game_music.ogg not found\n";
 
     ensureBuffer("button_click", "Assets/SFX/button_click.mp3");
-    ensureBuffer("jump", "Assets/SFX/jump.mp3");
+    ensureBuffer("jump", "Assets/SFX/jump.ogg");
     ensureBuffer("run", "Assets/SFX/run.ogg.opus", true);
-    ensureBuffer("landing", "Assets/SFX/landing.mp3");
+    ensureBuffer("landing", "Assets/SFX/land.ogg");
     ensureBuffer("rain", "Assets/SFX/rain.mp3");
 
     applyVolumes();
