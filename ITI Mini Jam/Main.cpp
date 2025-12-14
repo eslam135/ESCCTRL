@@ -27,7 +27,6 @@ int main()
     SoundManager soundMgr;
     soundMgr.playMusic("menu", true);
 
-    RainSystem rain(80, WIDTH, HEIGHT);
     Menu menu(WIDTH, HEIGHT, &soundMgr);
     OptionsMenu options(WIDTH, HEIGHT, &soundMgr);
     GameOverScreen gameOver(WIDTH, HEIGHT);
@@ -75,10 +74,8 @@ int main()
         if (gameState == MENU_STATE)
         {
             int menuResult = menu.update(window);
-            menu.draw(window);
 
-            rain.update(dt);
-            rain.draw(window);
+            menu.draw(window);
 
             if (menuResult == 1) { // PLAY
                 if (!game)
@@ -101,11 +98,10 @@ int main()
         }
         else if (gameState == OPTIONS_STATE)
         {
-            RectangleShape bg(Vector2f(WIDTH, HEIGHT));
-            bg.setTexture(&menu.tMenuBg);
-            window.draw(bg);
+            menu.draw(window); 
             options.draw(window);
         }
+
         else if (gameState == GAMEOVER_STATE && game)
         {
             window.setView(game->getCamera());

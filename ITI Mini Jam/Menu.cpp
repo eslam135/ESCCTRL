@@ -1,76 +1,123 @@
 #include "Menu.h"
 
 #include <iostream>
+#include <filesystem>
 
 using namespace sf;
 using namespace std;
+namespace fs = std::filesystem;
 
 Menu::Menu(float WIDTH, float HEIGHT, SoundManager* sm)
 {
     soundMgr = sm;
-    if (!tMenuBg.loadFromFile("Assets/MenusBackgrounds/MainMenu.png"))
-        cerr << "Warning: MainMenu.png not found\n";
-    else {
-        bg.setTexture(tMenuBg);
-        bg.setScale(WIDTH / tMenuBg.getSize().x, HEIGHT / tMenuBg.getSize().y);
+
+    loadAnimatedBackground(
+        "Assets/MainMenu/",
+        WIDTH, HEIGHT
+    );
+
+    Vector2f startBtnSize(423.f, 169.f);
+	Vector2f optionsBtnSize(422.f, 138.f);
+	Vector2f exitBtnSize(367.f, 141.f);
+    btnStart = UIButton(startBtnSize, { (WIDTH / 2.f) + 469.f, (HEIGHT / 2.f ) - 59.f });
+    btnOptions = UIButton(optionsBtnSize, { (WIDTH / 2.f) + 420.f, (HEIGHT / 2.f) + 110.f });
+    btnExit = UIButton(exitBtnSize, { (WIDTH / 2.f) + 469.f, (HEIGHT / 2.f) + 250.f });
+
+    if (tStart.loadFromFile("Assets/Buttons/start.png"))
+        btnStart.rect.setTexture(&tStart);
+
+    tStartHover.loadFromFile("Assets/Buttons/start_hover.png");
+
+    if (tOptions.loadFromFile("Assets/Buttons/options.png"))
+        btnOptions.rect.setTexture(&tOptions);
+
+    tOptionsHover.loadFromFile("Assets/Buttons/options_hover.png");
+
+    if (tExit.loadFromFile("Assets/Buttons/exit.png"))
+        btnExit.rect.setTexture(&tExit);
+
+    tExitHover.loadFromFile("Assets/Buttons/exit_hover.png");
+}
+
+void Menu::loadAnimatedBackground(const std::string& folder,
+    float WIDTH, float HEIGHT)
+{
+    bgFrames.clear();
+
+    std::vector<std::string> files;
+
+    for (const auto& entry : std::filesystem::directory_iterator(folder)) {
+        if (entry.path().extension() == ".png") {
+            files.push_back(entry.path().string());
+        }
     }
 
-    Vector2f btnSize(300, 80);
-    btnStart = UIButton(btnSize, { (WIDTH / 2.f) + 350.f, HEIGHT / 2.f });
-    btnOptions = UIButton(btnSize, { (WIDTH / 2.f) + 350.f, (HEIGHT / 2.f) + 150.f });
-    btnExit = UIButton(btnSize, { (WIDTH / 2.f) + 350.f, (HEIGHT / 2.f) + 300.f });
+    std::sort(files.begin(), files.end());
 
-    if (!tStart.loadFromFile("Assets/Buttons/start.png")) { /*fallback*/ }
-    else btnStart.rect.setTexture(&tStart);
-
-    if (!tStartHover.loadFromFile("Assets/Buttons/start_hover.png")) { /*fallback*/ }
-
-    if (!tOptions.loadFromFile("Assets/Buttons/options.png")) { /*fallback*/ }
-    else btnOptions.rect.setTexture(&tOptions);
-
-    if (!tOptionsHover.loadFromFile("Assets/Buttons/options_hover.png")) { /*fallback*/ }
-
-    if (!tExit.loadFromFile("Assets/Buttons/exit.png")) { /*fallback*/ }
-    else btnExit.rect.setTexture(&tExit);
-
-    if (!tExitHover.loadFromFile("Assets/Buttons/exit_hover.png")) { /*fallback*/ }
-
-    if (!tTitle.loadFromFile("Assets/Title.png")) {
-        cerr << "Warning: Title.png not found\n";
+    for (size_t i = 0; i < files.size(); i += FRAME_STEP) {
+        sf::Texture tex;
+        if (tex.loadFromFile(files[i])) {
+            bgFrames.push_back(std::move(tex));
+        }
     }
-    else {
-        sTitle.setTexture(tTitle);
-        float scaleFactor = 0.4f;
-        sTitle.setScale(scaleFactor, scaleFactor);
 
-        float scaledW = tTitle.getSize().x * scaleFactor;
-        float scaledH = tTitle.getSize().y * scaleFactor;
-
-        sTitle.setPosition(
-            WIDTH / 2.f - scaledW / 2.f + 350.f,
-            btnStart.rect.getPosition().y - scaledH - 120.f
-        );
+    if (bgFrames.empty()) {
+        std::cerr << "Warning: No background frames found\n";
+        return;
     }
+
+    bg.setTexture(bgFrames[0], true);
+    bg.setScale(
+        WIDTH / bgFrames[0].getSize().x,
+        HEIGHT / bgFrames[0].getSize().y
+    );
+}
+
+void Menu::updateBackground()
+{
+    if (bgFrames.size() <= 1) return;
+
+    if (frameClock.getElapsedTime().asSeconds() < frameTime)
+        return;
+
+    frameClock.restart();
+
+    currentFrame += frameDirection;
+
+    if (currentFrame == bgFrames.size() - 1)
+        frameDirection = -1;
+    else if (currentFrame == 0)
+        frameDirection = 1;
+
+    bg.setTexture(bgFrames[currentFrame], true);
 }
 
 int Menu::update(RenderWindow& window)
 {
+    updateBackground();
+
     Vector2i mousePos = Mouse::getPosition(window);
 
     if (btnStart.contains(mousePos)) {
-        if (tStartHover.getSize().x) btnStart.rect.setTexture(&tStartHover);
+        if (tStartHover.getSize().x)
+            btnStart.rect.setTexture(&tStartHover);
     }
-    else if (tStart.getSize().x) btnStart.rect.setTexture(&tStart);
+    else if (tStart.getSize().x)
+        btnStart.rect.setTexture(&tStart);
 
     if (btnOptions.contains(mousePos)) {
-        if (tOptionsHover.getSize().x) btnOptions.rect.setTexture(&tOptionsHover);
+        if (tOptionsHover.getSize().x)
+            btnOptions.rect.setTexture(&tOptionsHover);
     }
-    else if (tOptions.getSize().x) btnOptions.rect.setTexture(&tOptions);
+    else if (tOptions.getSize().x)
+        btnOptions.rect.setTexture(&tOptions);
 
     if (btnExit.contains(mousePos)) {
-        if (tExitHover.getSize().x) btnExit.rect.setTexture(&tExitHover);
+        if (tExitHover.getSize().x)
+            btnExit.rect.setTexture(&tExitHover);
     }
-    else if (tExit.getSize().x) btnExit.rect.setTexture(&tExit);
+    else if (tExit.getSize().x)
+        btnExit.rect.setTexture(&tExit);
 
     if (Mouse::isButtonPressed(Mouse::Left)) {
         if (btnStart.contains(mousePos)) {
@@ -92,10 +139,10 @@ int Menu::update(RenderWindow& window)
 
 void Menu::draw(RenderWindow& window)
 {
-    if (tMenuBg.getSize().x) window.draw(bg);
+    if (!bgFrames.empty())
+        window.draw(bg);
+
     btnStart.draw(window);
     btnOptions.draw(window);
     btnExit.draw(window);
 }
-
-

@@ -10,7 +10,7 @@ public:
     bool hasTexture = false;
 
     UIButton() = default;
-    UIButton(const sf::Vector2f& size, const sf::Vector2f& pos, sf::Color fill = sf::Color(120, 120, 120));
+    UIButton(const sf::Vector2f& size, const sf::Vector2f& pos, sf::Color fill = sf::Color(255, 255, 255));
 
     bool loadTexture(const std::string& path);
     bool contains(const sf::Vector2i& mousePos) const;
