@@ -25,25 +25,46 @@ void CollisionManager::resolveWithPlatform(Player& player, const Platform& platf
     float minOverlapY = min(overlapTop, overlapBottom);
 
     if (minOverlapX < minOverlapY) {
-        if (overlapLeft < overlapRight)
-            player.move(-overlapLeft, 0);
-        else
-            player.move(overlapRight, 0);
+        // Horizontal Collision
+        if (overlapLeft < overlapRight) player.move(-overlapLeft, 0);
+        else player.move(overlapRight, 0);
     }
     else {
-        if (overlapTop < overlapBottom) {
-            player.move(0, -overlapTop);
-            playerVelY = 0;
-            playerOnGround = true;
+        // Vertical Collision
+        if (player.isGravityReversed) {
+            // --- REVERSED GRAVITY ---
+            // "Landing" means hitting the BOTTOM of a platform (Ceiling)
+            if (overlapBottom < overlapTop) {
+                player.move(0, overlapBottom); // Push DOWN to land
+                playerVelY = 0;
+                playerOnGround = true; // Allow Jumping!
 
-            // If the platform moved this frame, carry the player with it!
-            Vector2f shift = platform.getCurrentShift();
-            player.move(shift.x, shift.y);
+                // Moving Platform Logic
+                Vector2f shift = platform.getCurrentShift();
+                player.move(shift.x, shift.y);
+            }
+            else {
+                // Hit the floor with head
+                player.move(0, -overlapTop);
+                playerVelY = 0;
+            }
         }
         else {
-            
-            player.move(0, overlapBottom);
-            playerVelY = 0;
+            // --- NORMAL GRAVITY ---
+            // "Landing" means hitting the TOP of a platform
+            if (overlapTop < overlapBottom) {
+                player.move(0, -overlapTop); // Push UP to land
+                playerVelY = 0;
+                playerOnGround = true; // Allow Jumping!
+
+                Vector2f shift = platform.getCurrentShift();
+                player.move(shift.x, shift.y);
+            }
+            else {
+                // Hit the ceiling with head
+                player.move(0, overlapBottom);
+                playerVelY = 0;
+            }
         }
     }
 }

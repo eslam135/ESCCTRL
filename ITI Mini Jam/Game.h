@@ -8,7 +8,7 @@
 #include "Platform.h"
 #include "Player.h"
 #include "SoundManager.h"
-#include "LevelDesign.h"
+
 
 using namespace sf;
 
@@ -28,11 +28,15 @@ public:
     std::vector<Sprite> leavesProp;
     sf::Texture platformTexture;
     sf::Texture obstacleTexture;
+    sf::Texture thornsTexture; //The thorns I added
 
 
     float WIDTH, HEIGHT;
     float WORLD_LEFT = 0.f;
     float WORLD_RIGHT;
+
+    // --- NEW: Cooldown Timer ---
+    float switchCooldown = 0.f;
 
     SoundManager* soundMgr = nullptr;
 
@@ -48,4 +52,3 @@ private:
     bool checkObstacleCollision();
     bool isVisible(const sf::Sprite& sprite);
 };
-
