@@ -11,7 +11,7 @@ public:
     void draw(sf::RenderWindow& window);
     sf::FloatRect getBounds() const;
 
-    //Helper function to help us determine how much we moved this specific frame
+    //Helper function to help us determine how much we moved in this specific frame
     sf::Vector2f getCurrentShift() const;
 
 private:
@@ -24,6 +24,6 @@ private:
     float speed = 0.f;
     float progress = 0.f;
 
-    // NEW: Stores the delta movement of the current frame
+    // Stores the delta movement of the current frame
     sf::Vector2f currentShift = { 0.f, 0.f };
 };
