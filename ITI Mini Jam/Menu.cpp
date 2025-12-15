@@ -1,7 +1,10 @@
 #include "Menu.h"
 
-#include <iostream>
 #include <filesystem>
+#include <thread>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -45,7 +48,6 @@ void Menu::loadAnimatedBackground(const std::string& folder,
     bgFrames.clear();
 
     std::vector<std::string> files;
-
     for (const auto& entry : std::filesystem::directory_iterator(folder)) {
         if (entry.path().extension() == ".png") {
             files.push_back(entry.path().string());
@@ -54,12 +56,35 @@ void Menu::loadAnimatedBackground(const std::string& folder,
 
     std::sort(files.begin(), files.end());
 
-    for (size_t i = 0; i < files.size(); i += FRAME_STEP) {
-        sf::Texture tex;
-        if (tex.loadFromFile(files[i])) {
-            bgFrames.push_back(std::move(tex));
-        }
+    const int THREAD_COUNT = 7;
+    std::vector<std::vector<sf::Texture>> partialTextures(THREAD_COUNT);
+    std::vector<std::thread> threads;
+
+    int chunkSize = (files.size() + THREAD_COUNT - 1) / THREAD_COUNT;
+
+    for (int t = 0; t < THREAD_COUNT; ++t) {
+        threads.emplace_back([t, chunkSize, &files, &partialTextures]() {
+            int start = t * chunkSize;
+            int end = std::min(start + chunkSize, (int)files.size());
+
+            for (int i = start; i < end; i += FRAME_STEP) {
+                sf::Texture tex;
+                if (tex.loadFromFile(files[i])) {
+                    partialTextures[t].push_back(std::move(tex));
+                }
+                else {
+                    std::cerr << "Failed to load: " << files[i] << "\n";
+                }
+            }
+            });
     }
+
+    for (auto& th : threads)
+        th.join();
+
+    for (auto& vec : partialTextures)
+        for (auto& tex : vec)
+            bgFrames.push_back(std::move(tex));
 
     if (bgFrames.empty()) {
         std::cerr << "Warning: No background frames found\n";
@@ -72,6 +97,7 @@ void Menu::loadAnimatedBackground(const std::string& folder,
         HEIGHT / bgFrames[0].getSize().y
     );
 }
+
 
 void Menu::updateBackground()
 {

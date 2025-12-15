@@ -14,9 +14,9 @@ public:
     std::vector<sf::Texture> bgFrames;
     size_t currentFrame = 0;
     int frameDirection = 1;          
-    float frameTime = 0.1f;
+    float frameTime = 0.06f;
     sf::Clock frameClock;
-    static constexpr int FRAME_STEP = 3;
+    static constexpr int FRAME_STEP = 2;
 
     UIButton btnStart, btnOptions, btnExit;
     sf::Texture tStart, tStartHover;
