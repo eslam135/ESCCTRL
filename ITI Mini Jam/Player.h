@@ -20,7 +20,7 @@ public:
 
     int frameW = 1024, frameH = 1024;
     int framesIdle = 3, framesRun = 6, framesJump = 7;
-    int framesFrogIdle = 3, framesFrogJump = 5;
+    int framesFrogIdle = 5, framesFrogJump = 5;
 
     int currentState = IDLE;
     int currentFrame = 0;

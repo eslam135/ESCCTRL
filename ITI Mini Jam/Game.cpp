@@ -13,7 +13,7 @@ Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
     rain(80, W, H),
     bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f }, 0),
-    BGground(1, W * 10000.f, H, { 0.f }, 5),
+    BGground(1, W * 10000.f, H + 100, { 0.f }, 5),
     ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
 {
     soundMgr = sm;
@@ -39,7 +39,7 @@ Game::Game(float W, float H, SoundManager* sm)
 
 
     //Test pos frog
-    player.setPosition(13200.f, HEIGHT - 400.f);
+    //player.setPosition(17050.f, HEIGHT - 400.f);
 }
 
 bool Game::update(float dt)
