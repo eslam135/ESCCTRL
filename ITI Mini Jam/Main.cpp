@@ -5,6 +5,7 @@
 #include "OptionsMenu.h"
 #include "RainSystem.h"
 #include "GameOverScreen.h"
+#include "WinningScreen.h"
 #include "SoundManager.h"
 #include "PauseMenu.h"
 
@@ -29,6 +30,7 @@ int main()
     OptionsMenu options(WIDTH, HEIGHT, &soundMgr);
     PauseMenu pauseMenu(WIDTH, HEIGHT, &soundMgr);
     GameOverScreen gameOver(WIDTH, HEIGHT);
+    WinningScreen winningScreen(WIDTH, HEIGHT, &soundMgr);
 
     Game* game = nullptr;
 
@@ -37,18 +39,14 @@ int main()
         PLAYING_STATE,
         PAUSED_STATE,
         OPTIONS_STATE,
-        GAMEOVER_STATE
+        GAMEOVER_STATE,
+        WINNING_STATE
     };
 
     GameState gameState = MENU_STATE;
     GameState previousState = MENU_STATE;
 
     Clock dtClock;
-
-    RectangleShape fadeOverlay(Vector2f(WIDTH, HEIGHT));
-    fadeOverlay.setFillColor(Color::Black);
-    float fadeAlpha = 255.f;
-    float fadeSpeed = 150.f;
 
     while (window.isOpen())
     {
@@ -58,7 +56,6 @@ int main()
             if (e.type == Event::Closed)
                 window.close();
 
-            // ESC toggle pause
             if (e.type == Event::KeyPressed && e.key.code == Keyboard::Escape)
             {
                 if (gameState == PLAYING_STATE)
@@ -72,17 +69,12 @@ int main()
                 }
             }
 
-            // ----- OPTIONS -----
             if (gameState == OPTIONS_STATE)
             {
                 window.setView(window.getDefaultView());
-
-                int res = options.update(window, e);
-                if (res == 1)
+                if (options.update(window, e) == 1)
                     gameState = previousState;
             }
-
-            // ----- GAME OVER -----
             else if (gameState == GAMEOVER_STATE && game)
             {
                 window.setView(window.getDefaultView());
@@ -93,15 +85,29 @@ int main()
                     gameState = PLAYING_STATE;
                 }
             }
+            else if (gameState == WINNING_STATE && game)
+            {
+                window.setView(window.getDefaultView());
+                int res = winningScreen.update(window, e);
 
-            // ----- PAUSE MENU -----
+                if (res == 1) {
+                    delete game;
+                    game = new Game(WIDTH, HEIGHT, &soundMgr);
+                    gameState = PLAYING_STATE;
+                }
+                else if (res == 2) {
+                    delete game;
+                    game = nullptr;
+                    gameState = MENU_STATE;
+                }
+            }
             else if (gameState == PAUSED_STATE && game)
             {
                 window.setView(window.getDefaultView());
                 int res = pauseMenu.update(window, e);
 
-                if (res == 1)        gameState = PLAYING_STATE;      // Resume
-                else if (res == 2) {                                 // Main Menu
+                if (res == 1) gameState = PLAYING_STATE;
+                else if (res == 2) {
                     delete game;
                     game = nullptr;
                     gameState = MENU_STATE;
@@ -112,24 +118,20 @@ int main()
         float dt = dtClock.restart().asSeconds();
         window.clear(Color::Black);
 
-        // ---------- DRAW ----------
         if (gameState == MENU_STATE)
         {
-            int menuResult = menu.update(window);
+            int r = menu.update(window);
             menu.draw(window);
 
-            if (menuResult == 1) // PLAY
-            {
-                if (!game)
-                    game = new Game(WIDTH, HEIGHT, &soundMgr);
+            if (r == 1) {
+                game = new Game(WIDTH, HEIGHT, &soundMgr);
                 gameState = PLAYING_STATE;
             }
-            else if (menuResult == 2) // OPTIONS
-            {
+            else if (r == 2) {
                 previousState = MENU_STATE;
                 gameState = OPTIONS_STATE;
             }
-            else if (menuResult == 3) // EXIT
+            else if (r == 3)
                 window.close();
         }
         else if (gameState == PLAYING_STATE && game)
@@ -137,46 +139,37 @@ int main()
             bool died = game->update(dt);
             game->draw(window);
 
-            if (died)
-                gameState = GAMEOVER_STATE;
+            if (died) gameState = GAMEOVER_STATE;
+            else if (game->hasWon()) gameState = WINNING_STATE;
         }
         else if (gameState == PAUSED_STATE && game)
         {
-            // Draw world
             window.setView(game->getCamera());
             game->draw(window);
 
-            // Draw UI
             window.setView(window.getDefaultView());
             pauseMenu.draw(window);
         }
-
         else if (gameState == OPTIONS_STATE)
         {
-            window.setView(window.getDefaultView());
-
             menu.draw(window);
             options.draw(window);
         }
         else if (gameState == GAMEOVER_STATE && game)
         {
-            // World
             window.setView(game->getCamera());
             game->draw(window);
 
-            // UI
             window.setView(window.getDefaultView());
             gameOver.draw(window, window.getDefaultView());
-
         }
-
-        // ----- Fade-in -----
-        if (fadeAlpha > 0.f)
+        else if (gameState == WINNING_STATE && game)
         {
-            fadeAlpha -= fadeSpeed * dt;
-            if (fadeAlpha < 0.f) fadeAlpha = 0.f;
-            fadeOverlay.setFillColor(Color(0, 0, 0, static_cast<Uint8>(fadeAlpha)));
-            window.draw(fadeOverlay);
+            window.setView(game->getCamera());
+            game->draw(window);
+
+            window.setView(window.getDefaultView());
+            winningScreen.draw(window);
         }
 
         window.display();

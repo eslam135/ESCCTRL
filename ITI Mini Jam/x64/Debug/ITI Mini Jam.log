@@ -1,24 +1,4 @@
-﻿  CollisionManager.cpp
-  Game.cpp
-  GameOverScreen.cpp
-  Level2.cpp
-  LevelDesign.cpp
+﻿  Game.cpp
   Main.cpp
-  Menu.cpp
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Menu.cpp(63,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Obstacle.cpp
-  OptionsMenu.cpp
-  ParallaxBackground.cpp
-  PauseMenu.cpp
-  Platform.cpp
-  Player.cpp
-  RainSystem.cpp
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp(18,77): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp(18,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp(19,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp(31,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp(46,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  SoundManager.cpp
-  UI.cpp
   Generating Code...
   ITI Mini Jam.vcxproj -> G:\iti\Mini Jam (Eslam's GitHub)\x64\Debug\ITI Mini Jam.exe

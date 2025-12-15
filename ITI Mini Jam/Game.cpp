@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
-#include "LevelDesign.h" 
+#include "LevelDesign.h"
 #include "Level2.h"
 
 using namespace sf;
@@ -23,23 +23,28 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(WIDTH, HEIGHT);
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
 
-    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png")) cerr << "Error: Platform tex missing\n";
-    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png")) cerr << "Error: Spike tex missing\n";
-    if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png")) cerr << "Error: Thorns tex missing\n";
-    if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png")) cerr << "Error: Spike rain tex missing\n";
+    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png")) cerr << "Platform tex missing\n";
+    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png")) cerr << "Spike tex missing\n";
+    if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png")) cerr << "Thorns tex missing\n";
+    if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png")) cerr << "Spike rain tex missing\n";
 
-    LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture, thornsTexture);
+    LevelDesign::buildLevel(HEIGHT, platforms, obstacles,
+        platformTexture, obstacleTexture, thornsTexture);
     Level2::setupSpikeRain(rain, spikeTex);
+
+    // ---------- WIN MARKER ----------
+    if (!winMarkerTex.loadFromFile("Assets/villageSign.png"))
+        cerr << "WinMarker missing\n";
+
+    winMarker.setTexture(winMarkerTex);
+	winMarker.setScale(0.3f, 0.3f);
+    winMarker.setPosition(WIN_X, HEIGHT - 410.f);
 
     Texture t;
     if (t.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(t);
     if (t.loadFromFile("Assets/Props/Tree.png"))    propTextures.push_back(t);
 
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
-
-
-    //Test pos frog
-    //player.setPosition(17050.f, HEIGHT - 400.f);
 }
 
 bool Game::update(float dt)
@@ -83,6 +88,14 @@ bool Game::update(float dt)
     return false;
 }
 
+
+
+bool Game::hasWon() const
+{
+    return player.getPosition().x >= WIN_X;
+}
+
+
 bool Game::checkObstacleCollision()
 {
     FloatRect playerBounds = player.getGlobalBounds();
@@ -119,16 +132,24 @@ bool Game::checkObstacleCollision()
     return false;
 }
 
-void Game::draw(RenderWindow& window) {
+void Game::draw(RenderWindow& window)
+{
     window.setView(camera);
+
     bg.draw(window);
     ground.draw(window);
+
     for (auto& p : treesProp) if (isVisible(p)) window.draw(p);
     BGground.draw(window);
+
     for (auto& plat : platforms) plat.draw(window);
     for (auto& o : obstacles) o.draw(window);
+
+    window.draw(winMarker);   // visual win cue
+
     rain.drawSpikeRain(window);
     player.draw(window);
+
     for (auto& p : leavesProp) if (isVisible(p)) window.draw(p);
 }
 

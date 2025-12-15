@@ -145,6 +145,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="WinningScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionManager.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="WinningScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
