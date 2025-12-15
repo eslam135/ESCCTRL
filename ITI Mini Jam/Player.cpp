@@ -127,7 +127,7 @@ void Player::updateMovement()
         movingHorizontal = true;
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::Space) && onGround)
+    if ((Keyboard::isKeyPressed(Keyboard::Space) || Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up)) && onGround)
     {
         velY = -20.f * gravityDir;
         onGround = false;

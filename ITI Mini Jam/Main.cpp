@@ -75,6 +75,8 @@ int main()
             // ----- OPTIONS -----
             if (gameState == OPTIONS_STATE)
             {
+                window.setView(window.getDefaultView());
+
                 int res = options.update(window, e);
                 if (res == 1)
                     gameState = previousState;
@@ -83,7 +85,7 @@ int main()
             // ----- GAME OVER -----
             else if (gameState == GAMEOVER_STATE && game)
             {
-                window.setView(game->getCamera());
+                window.setView(window.getDefaultView());
                 if (gameOver.update(window, e))
                 {
                     delete game;
@@ -95,9 +97,9 @@ int main()
             // ----- PAUSE MENU -----
             else if (gameState == PAUSED_STATE && game)
             {
-                window.setView(game->getCamera());
-
+                window.setView(window.getDefaultView());
                 int res = pauseMenu.update(window, e);
+
                 if (res == 1)        gameState = PLAYING_STATE;      // Resume
                 else if (res == 2) {                                 // Main Menu
                     delete game;
@@ -140,20 +142,32 @@ int main()
         }
         else if (gameState == PAUSED_STATE && game)
         {
+            // Draw world
             window.setView(game->getCamera());
             game->draw(window);
+
+            // Draw UI
+            window.setView(window.getDefaultView());
             pauseMenu.draw(window);
         }
+
         else if (gameState == OPTIONS_STATE)
         {
+            window.setView(window.getDefaultView());
+
             menu.draw(window);
             options.draw(window);
         }
         else if (gameState == GAMEOVER_STATE && game)
         {
+            // World
             window.setView(game->getCamera());
             game->draw(window);
-            gameOver.draw(window, game->getCamera());
+
+            // UI
+            window.setView(window.getDefaultView());
+            gameOver.draw(window, window.getDefaultView());
+
         }
 
         // ----- Fade-in -----
