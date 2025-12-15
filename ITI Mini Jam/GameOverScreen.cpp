@@ -30,7 +30,7 @@ GameOverScreen::GameOverScreen(float width, float height)
 bool GameOverScreen::update(RenderWindow& window, const Event& ev)
 {
     Vector2i mousePos = Mouse::getPosition(window);
-    mousePos.x += 90;
+    mousePos.x += 120;
     // -------- Hover --------
     if (restartButton.contains(mousePos)) {
         if (tReplayHover.getSize().x)
