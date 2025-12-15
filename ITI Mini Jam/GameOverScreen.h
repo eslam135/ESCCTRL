@@ -1,11 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
 #include "UI.h"
 
-class GameOverScreen
-{
+class GameOverScreen {
 public:
     GameOverScreen(float width, float height);
 
@@ -14,9 +12,12 @@ public:
 
 private:
     sf::RectangleShape overlay;
-    sf::Font font;
-    sf::Text title;
-    UIButton restartButton;
-    sf::Text restartLabel;
-};
 
+    sf::Font font;
+
+    UIButton restartButton;
+
+    // Replay button textures
+    sf::Texture tReplay;
+    sf::Texture tReplayHover;
+};

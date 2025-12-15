@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
 #include "SoundManager.h"
 #include "UI.h"
 
@@ -10,10 +9,8 @@ public:
     Slider musicSlider;
     Slider sfxSlider;
     UIButton backButton;
+
     sf::Font font;
-    sf::Text titleText;
-    sf::Text musicLabel;
-    sf::Text sfxLabel;
     sf::Text musicValueText;
     sf::Text sfxValueText;
 
@@ -25,8 +22,13 @@ public:
     void draw(sf::RenderWindow& window);
 
 private:
+    void updateValueTexts();
+
+    // Background
     sf::Texture backgroundTex;
     sf::Sprite backgroundSprite;
 
-    void updateValueTexts();
+    // Back button textures
+    sf::Texture tBack;
+    sf::Texture tBackHover;
 };
