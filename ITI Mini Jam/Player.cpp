@@ -8,46 +8,103 @@ Player::Player(SoundManager* manager)
 {
     soundMgr = manager;
 
-    // Load textures
-    if (!tIdle.loadFromFile("Assets/Character/idle.png")) cerr << "Warning: idle.png missing\n";
-    if (!tRun.loadFromFile("Assets/Character/run.png")) cerr << "Warning: run.png missing\n";
-    if (!tJump.loadFromFile("Assets/Character/jump.png")) cerr << "Warning: jump.png missing\n";
+    tIdle.loadFromFile("Assets/Character/idle.png");
+    tRun.loadFromFile("Assets/Character/run.png");
+    tJump.loadFromFile("Assets/Character/jump.png");
+
+    tFrogIdle.loadFromFile("Assets/Frog/Idle.png");
+    tFrogJump.loadFromFile("Assets/Frog/Jump.png");
 
     sprite.setTexture(tIdle);
     sprite.setTextureRect(IntRect(0, 0, frameW, frameH));
     sprite.setScale(spriteScale, spriteScale);
-
-    //Set Origin to Center so it flips in place
     sprite.setOrigin(frameW / 2.f, frameH / 2.f);
 
     hitbox.setSize({ 40.f, 150.f });
-    hitbox.setOrigin(20.f, 75.f); 
+    hitbox.setOrigin(20.f, 75.f);
     hitbox.setPosition(300.f, 300.f);
     hitbox.setFillColor(Color::Transparent);
 
     maxFrames = framesIdle;
 }
 
-void Player::setGravityReversed(bool reversed) {
+void Player::switchForm()
+{
+    if (currentForm == HUMAN)
+    {
+        currentForm = FROG;
+        sprite.setTexture(tFrogJump);
+        maxFrames = framesFrogJump;
+        spriteScale = 0.1f;
+        currentFrame = 0;
+    }
+    else
+    {
+        currentForm = HUMAN;
+        sprite.setTexture(tIdle);
+        maxFrames = framesIdle;
+		spriteScale = 0.2f;
+        currentFrame = 0;
+    }
+}
+
+void Player::setGravityReversed(bool reversed)
+{
     isGravityReversed = reversed;
 }
 
 void Player::updateMovement()
 {
-    bool moving = false;
+    float gravityDir = isGravityReversed ? -1.f : 1.f;
     movingHorizontal = false;
 
-    // 1 = Normal (Down), -1 = Reversed (Up)
-    float gravityDir = isGravityReversed ? -1.f : 1.f;
 
-    if (Keyboard::isKeyPressed(Keyboard::A) && Keyboard::isKeyPressed(Keyboard::D) ||
-        Keyboard::isKeyPressed(Keyboard::Left) && Keyboard::isKeyPressed(Keyboard::Right)) {
-        hitbox.move(0, 0);
-        facingRight = true;
-        moving = false;
-        movingHorizontal = false;
+    if (currentForm == FROG)
+    {
+        float gravityDir = isGravityReversed ? -1.f : 1.f;
+
+        if (onGround && (Keyboard::isKeyPressed(Keyboard::Space) ||
+            Keyboard::isKeyPressed(Keyboard::W) ||
+            Keyboard::isKeyPressed(Keyboard::Up)))
+        {
+            velY = -22.f * gravityDir;
+            onGround = false;
+            facingRight = sprite.getScale().x > 0 ? true : false;
+        }
+
+        velY += gravity * gravityDir;
+        hitbox.move(0, velY);
+
+        if (!onGround)
+        {
+            if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
+            {
+                hitbox.move(-5.f, 0);
+                facingRight = false;
+            }
+            else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right))
+            {
+                hitbox.move(5.f, 0);
+                facingRight = true;
+            }
+
+            currentState = JUMP;
+            sprite.setTexture(tFrogJump);
+            maxFrames = framesFrogJump;
+        }
+        else
+        {
+            currentState = IDLE;
+            sprite.setTexture(tFrogIdle);
+            maxFrames = framesFrogIdle;
+        }
+
+        return; 
     }
-    else if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
+
+    bool moving = false;
+
+    if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
     {
         hitbox.move(-speed, 0);
         facingRight = false;
@@ -62,9 +119,8 @@ void Player::updateMovement()
         movingHorizontal = true;
     }
 
-    if ((Keyboard::isKeyPressed(Keyboard::Space) || Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::Up)) && onGround)
+    if (Keyboard::isKeyPressed(Keyboard::Space) && onGround)
     {
-        
         velY = -20.f * gravityDir;
         onGround = false;
         if (soundMgr) soundMgr->playSFX("jump");
@@ -73,65 +129,58 @@ void Player::updateMovement()
     velY += gravity * gravityDir;
     hitbox.move(0, velY);
 
-    int newState = currentState;
-    if (!onGround) newState = JUMP;
-    else if (moving) newState = RUN;
-    else newState = IDLE;
+    if (!onGround) currentState = JUMP;
+    else if (moving) currentState = RUN;
+    else currentState = IDLE;
 
-    if (newState != currentState)
-    {
-        currentState = newState;
-        currentFrame = 0;
-        if (currentState == IDLE) { sprite.setTexture(tIdle); maxFrames = framesIdle; }
-        if (currentState == RUN) { sprite.setTexture(tRun); maxFrames = framesRun; }
-        if (currentState == JUMP) { sprite.setTexture(tJump); maxFrames = framesJump; }
-    }
+    if (currentState == IDLE) { sprite.setTexture(tIdle); maxFrames = framesIdle; }
+    if (currentState == RUN) { sprite.setTexture(tRun);  maxFrames = framesRun; }
+    if (currentState == JUMP) { sprite.setTexture(tJump); maxFrames = framesJump; }
 }
 
 void Player::updateAnimation()
 {
     timeSince += animClock.restart().asSeconds();
 
-    if (currentState == IDLE) animSpeed = 0.19f;
-    else if (currentState == RUN) animSpeed = 0.09f;
-    else animSpeed = 0.17f;
+    animSpeed = (currentForm == FROG) ? 0.25f : 0.09f;
 
     if (timeSince >= animSpeed)
     {
-        timeSince = 0;
-        currentFrame++;
-        if (currentFrame >= maxFrames) currentFrame = 0;
+        timeSince = 0.f;
+        currentFrame = (currentFrame + 1) % maxFrames;
     }
 
     sprite.setTextureRect(IntRect(currentFrame * frameW, 0, frameW, frameH));
 
     float scaleX = facingRight ? spriteScale : -spriteScale;
-    float scaleY = isGravityReversed ? -spriteScale : spriteScale; // Flip Upside Down
+    float scaleY = isGravityReversed ? -spriteScale : spriteScale;
 
     sprite.setScale(scaleX, scaleY);
     sprite.setPosition(hitbox.getPosition());
 }
 
-void Player::draw(RenderWindow& window) { window.draw(sprite); }
+void Player::draw(RenderWindow& window)
+{
+    window.draw(sprite);
+}
+
 FloatRect Player::getGlobalBounds() const { return hitbox.getGlobalBounds(); }
 Vector2f Player::getPosition() const { return hitbox.getPosition(); }
 void Player::move(float dx, float dy) { hitbox.move(dx, dy); }
 void Player::setPosition(float x, float y) { hitbox.setPosition(x, y); sprite.setPosition(x, y); }
+
 bool Player::isRunningOnGround() const { return movingHorizontal && onGround; }
 bool Player::isMovingHorizontally() const { return movingHorizontal; }
 
 bool Player::isStandingOn(const Platform& platform) const
 {
-    sf::FloatRect p = hitbox.getGlobalBounds();
-    sf::FloatRect b = platform.getBounds();
-    const float tolerance = 10.f;
+    FloatRect p = hitbox.getGlobalBounds();
+    FloatRect b = platform.getBounds();
+    const float tol = 10.f;
 
-    bool verticallyAligned = false;
-    if (!isGravityReversed) {
-        verticallyAligned = (p.top + p.height <= b.top + tolerance) && (p.top + p.height >= b.top - tolerance);
-    }
-    else {
-        verticallyAligned = (p.top >= (b.top + b.height) - tolerance) && (p.top <= (b.top + b.height) + tolerance);
-    }
-    return verticallyAligned && (p.left + p.width > b.left && p.left < b.left + b.width);
+    bool vertical = !isGravityReversed
+        ? (p.top + p.height <= b.top + tol && p.top + p.height >= b.top - tol)
+        : (p.top >= b.top + b.height - tol && p.top <= b.top + b.height + tol);
+
+    return vertical && (p.left + p.width > b.left && p.left < b.left + b.width);
 }

@@ -74,7 +74,6 @@ int main()
         if (gameState == MENU_STATE)
         {
             int menuResult = menu.update(window);
-
             menu.draw(window);
 
             if (menuResult == 1) { // PLAY
@@ -92,16 +91,22 @@ int main()
         else if (gameState == PLAYING_STATE && game)
         {
             bool died = game->update(dt);
+
+            float direction = 0.f;
+            if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
+                direction = -1.f;
+            else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right))
+                direction = 1.f;
             game->draw(window);
+
             if (died)
                 gameState = GAMEOVER_STATE;
         }
         else if (gameState == OPTIONS_STATE)
         {
-            menu.draw(window); 
+            menu.draw(window);
             options.draw(window);
         }
-
         else if (gameState == GAMEOVER_STATE && game)
         {
             window.setView(game->getCamera());

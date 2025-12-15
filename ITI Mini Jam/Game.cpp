@@ -83,7 +83,13 @@ bool Game::update(float dt)
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left)) direction = -1;
     else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right)) direction = 1;
 
-    if (direction != 0) bg.update(dt, direction, 3, bg.layerCount);
+    if (direction != 0)
+    {
+        if (player.currentForm == Player::FROG && player.currentState == Player::JUMP)
+        {
+            bg.update(dt, direction, 3, bg.layerCount);
+        }
+    }
     bg.update(dt, 1, 2, 3);
 
     float px = player.getPosition().x;
