@@ -25,7 +25,8 @@ public:
     void draw(sf::RenderWindow& window);
 
 private:
+    sf::Texture backgroundTex;
+    sf::Sprite backgroundSprite;
+
     void updateValueTexts();
 };
-
-

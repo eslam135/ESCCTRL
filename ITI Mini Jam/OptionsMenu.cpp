@@ -12,30 +12,41 @@ OptionsMenu::OptionsMenu(float WIDTH, float HEIGHT, SoundManager* sm)
     soundMgr->setMusicVolume(1.f);
     soundMgr->setSFXVolume(0.f);
 
+    if (!backgroundTex.loadFromFile("Assets/SettingsMenu/Settings_Menu_BG.png")) {
+        std::cerr << "Options background not found\n";
+    }
+    backgroundSprite.setTexture(backgroundTex);
+    backgroundSprite.setPosition(0.f, 0.f);
+
+    // Optional: scale to screen size
+    backgroundSprite.setScale(
+        WIDTH / backgroundTex.getSize().x,
+        HEIGHT / backgroundTex.getSize().y
+    );
 
     float centerX = WIDTH / 2.f;
     float baseY = HEIGHT / 2.f - 120.f;
 
-    musicSlider = Slider(centerX - 200.f, baseY + 20.f, 400.f, static_cast<int>(sm->musicVolume));
-    sfxSlider = Slider(centerX - 200.f, baseY + 140.f, 400.f, static_cast<int>(sm->sfxVolume));
+    musicSlider = Slider(centerX - 680.f, baseY + 150.f, 400.f, static_cast<int>(sm->musicVolume));
+    sfxSlider = Slider(centerX - 680.f, baseY + 430.f, 400.f, static_cast<int>(sm->sfxVolume));
 
-    backButton = UIButton({ 200.f, 70.f }, { centerX, baseY + 300.f }, Color(150, 150, 150));
+    backButton = UIButton({ 155.f, 142.f }, { centerX-750, baseY - 300}, Color(255, 255, 255));
+	backButton.loadTexture("Assets/Buttons/Back_Button.png");
+
 
     font = Font();
     if (!font.loadFromFile("Assets/Fonts/MyFont.ttf"))
         cerr << "Warning: arial.ttf not found (using default font)\n";
 
-    titleText.setFont(font);
-    titleText.setCharacterSize(36);
-    titleText.setString("Options");
-    titleText.setPosition(centerX - 60.f, baseY - 80.f);
-    titleText.setFillColor(Color::White);
+    musicValueText.setFont(font); 
+    musicValueText.setCharacterSize(20); musicValueText.Bold; 
+    musicValueText.setPosition(centerX - 725.f, baseY + 135.f);
+    musicValueText.setFillColor(Color::Black);
 
-    musicLabel.setFont(font); musicLabel.setCharacterSize(20); musicLabel.setString("Music Volume"); musicLabel.setPosition(centerX - 200.f, baseY - 10.f); musicLabel.setFillColor(Color::White);
-    sfxLabel.setFont(font); sfxLabel.setCharacterSize(20); sfxLabel.setString("SFX Volume"); sfxLabel.setPosition(centerX - 200.f, baseY + 120.f); sfxLabel.setFillColor(Color::White);
-
-    musicValueText.setFont(font); musicValueText.setCharacterSize(18); musicValueText.setPosition(centerX + 220.f, baseY + 10.f); musicValueText.setFillColor(Color::White);
-    sfxValueText.setFont(font); sfxValueText.setCharacterSize(18); sfxValueText.setPosition(centerX + 220.f, baseY + 130.f); sfxValueText.setFillColor(Color::White);
+    sfxValueText.setFont(font); 
+	sfxValueText.setCharacterSize(20); sfxValueText.Bold;
+    sfxValueText.setPosition(centerX - 735.f, baseY + 415.f); 
+    sfxValueText.setFillColor(Color::Black);
 
     updateValueTexts();
 }
@@ -71,6 +82,8 @@ void OptionsMenu::updateValueTexts() {
 }
 
 void OptionsMenu::draw(RenderWindow& window) {
+    window.draw(backgroundSprite);
+
     window.draw(titleText);
     window.draw(musicLabel);
     window.draw(sfxLabel);
