@@ -39,7 +39,7 @@ Game::Game(float W, float H, SoundManager* sm)
 
 
     //Test pos frog
-    //player.setPosition(13200.f, HEIGHT - 400.f);
+    player.setPosition(13200.f, HEIGHT - 400.f);
 }
 
 bool Game::update(float dt)

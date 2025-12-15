@@ -135,7 +135,7 @@ void RainSystem::addSpikeRainZone(const sf::Texture& tex, float triggerX, float 
         Spike s;
         s.sprite.setTexture(spikeTex);
         s.sprite.setOrigin(spikeTex.getSize().x / 2.f, spikeTex.getSize().y / 2.f);
-        s.sprite.setScale(0.5f, 0.5f);
+        s.sprite.setScale(0.2f, 0.2f);
         s.active = false;
         spikes.push_back(s);
     }

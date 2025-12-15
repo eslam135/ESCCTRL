@@ -139,7 +139,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     platforms.emplace_back(platformTex, rainStartX + 800.f, GROUND_TOP - 500.f, 300.f, 50.f);
 
-    obstacles.emplace_back(thornsTex, rainStartX + 600.f, GROUND_TOP - 600.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(thornsTex, rainStartX + 500.f, GROUND_TOP - 800.f, 90.f, 90.f, Obstacle::ROTATING);
 
 
 

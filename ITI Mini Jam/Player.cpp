@@ -74,7 +74,7 @@ void Player::updateMovement()
             Keyboard::isKeyPressed(Keyboard::W) ||
             Keyboard::isKeyPressed(Keyboard::Up)))
         {
-            velY = -27.f * gravityDir; // Higher jump for frog
+            velY = -23.f * gravityDir; // Higher jump for frog
             onGround = false;
             facingRight = sprite.getScale().x > 0 ? true : false;
             if (soundMgr) soundMgr->playSFX("jump");
