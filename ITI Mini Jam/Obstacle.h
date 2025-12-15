@@ -3,8 +3,8 @@
 
 class Obstacle {
 public:
-    // The 4 types of obstacles/interactables
-    enum Type { STATIC, ROTATING, FALLING, GRAVITY_SWITCH };
+    // Added FROG_ITEM to the list
+    enum Type { STATIC, ROTATING, FALLING, GRAVITY_SWITCH, FROG_ITEM };
 
     Obstacle(const sf::Texture& texture, float x, float y, float width, float height, Type type = STATIC);
 
@@ -12,7 +12,6 @@ public:
     void draw(sf::RenderWindow& window);
     sf::FloatRect getBounds() const;
 
-    // Helper so Game.cpp knows if this is a spike (die) or a switch (flip gravity)
     Type getType() const { return type; }
 
 private:

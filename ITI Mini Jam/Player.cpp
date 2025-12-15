@@ -28,23 +28,32 @@ Player::Player(SoundManager* manager)
     maxFrames = framesIdle;
 }
 
+// --- YOUR CUSTOM SWITCH FORM FUNCTION ---
 void Player::switchForm()
 {
     if (currentForm == HUMAN)
     {
         currentForm = FROG;
-        sprite.setTexture(tFrogJump);
-        maxFrames = framesFrogJump;
-        spriteScale = 0.1f;
+        sprite.setTexture(tFrogJump); // Use Frog Jump texture as base
+        maxFrames = framesFrogJump;   // Use Frog frame count
+        spriteScale = 0.1f;           // Frog Scale
         currentFrame = 0;
+
+        // Adjust hitbox for frog
+        hitbox.setSize({ 40.f, 60.f });
+        hitbox.setOrigin(20.f, 30.f);
     }
     else
     {
         currentForm = HUMAN;
         sprite.setTexture(tIdle);
         maxFrames = framesIdle;
-		spriteScale = 0.2f;
+        spriteScale = 0.2f;           // Human Scale
         currentFrame = 0;
+
+        // Adjust hitbox for human
+        hitbox.setSize({ 40.f, 150.f });
+        hitbox.setOrigin(20.f, 75.f);
     }
 }
 
@@ -58,18 +67,17 @@ void Player::updateMovement()
     float gravityDir = isGravityReversed ? -1.f : 1.f;
     movingHorizontal = false;
 
-
+    // --- FROG MOVEMENT ---
     if (currentForm == FROG)
     {
-        float gravityDir = isGravityReversed ? -1.f : 1.f;
-
         if (onGround && (Keyboard::isKeyPressed(Keyboard::Space) ||
             Keyboard::isKeyPressed(Keyboard::W) ||
             Keyboard::isKeyPressed(Keyboard::Up)))
         {
-            velY = -22.f * gravityDir;
+            velY = -27.f * gravityDir; // Higher jump for frog
             onGround = false;
             facingRight = sprite.getScale().x > 0 ? true : false;
+            if (soundMgr) soundMgr->playSFX("jump");
         }
 
         velY += gravity * gravityDir;
@@ -98,10 +106,10 @@ void Player::updateMovement()
             sprite.setTexture(tFrogIdle);
             maxFrames = framesFrogIdle;
         }
-
-        return; 
+        return;
     }
 
+    // --- HUMAN MOVEMENT ---
     bool moving = false;
 
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left))
@@ -142,7 +150,7 @@ void Player::updateAnimation()
 {
     timeSince += animClock.restart().asSeconds();
 
-    animSpeed = (currentForm == FROG) ? 0.25f : 0.09f;
+    animSpeed = (currentForm == FROG) ? 0.15f : 0.09f;
 
     if (timeSince >= animSpeed)
     {
@@ -150,8 +158,26 @@ void Player::updateAnimation()
         currentFrame = (currentFrame + 1) % maxFrames;
     }
 
-    sprite.setTextureRect(IntRect(currentFrame * frameW, 0, frameW, frameH));
+    // Dynamic Frame Calculation
+    int currentW = 0;
+    int currentH = 0;
 
+    if (sprite.getTexture()) {
+        if (currentForm == FROG) {
+            Vector2u texSize = sprite.getTexture()->getSize();
+            currentW = texSize.x / maxFrames;
+            currentH = texSize.y;
+        }
+        else {
+            currentW = frameW;
+            currentH = frameH;
+        }
+
+        sprite.setTextureRect(IntRect(currentFrame * currentW, 0, currentW, currentH));
+        sprite.setOrigin(currentW / 2.f, currentH / 2.f);
+    }
+
+    // Use spriteScale (0.1 for frog, 0.2 for human)
     float scaleX = facingRight ? spriteScale : -spriteScale;
     float scaleY = isGravityReversed ? -spriteScale : spriteScale;
 

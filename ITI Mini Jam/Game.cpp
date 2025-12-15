@@ -16,7 +16,6 @@ Game::Game(float W, float H, SoundManager* sm)
     BGground(1, W * 10000.f, H, { 0.f }, 5),
     ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
 {
-    // --- 1. SETUP ---
     soundMgr = sm;
     player.soundMgr = sm;
     WORLD_RIGHT = WIDTH * 10000.f;
@@ -24,69 +23,53 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(WIDTH, HEIGHT);
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
 
-    // --- 2. LOAD TEXTURES ---
-    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png"))
-        std::cerr << "Couldn't load platform texture\n";
-    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png"))
-        std::cerr << "Couldn't load obstacle texture\n";
-    if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png"))
-        std::cerr << "Couldn't load thorns texture\n"; //The thorns I added
-    if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png"))
-        std::cerr << "Couldn't load spike texture\n";
+    if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png")) cerr << "Error: Platform tex missing\n";
+    if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png")) cerr << "Error: Spike tex missing\n";
+    if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png")) cerr << "Error: Thorns tex missing\n";
+    if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png")) cerr << "Error: Spike rain tex missing\n";
 
-    // --- 3. BUILD LEVEL ---
     LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture, thornsTexture);
     Level2::setupSpikeRain(rain, spikeTex);
 
-    // --- 4. PROPS ---
     Texture t;
     if (t.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(t);
     if (t.loadFromFile("Assets/Props/Tree.png"))    propTextures.push_back(t);
 
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
+
+
+    //Test pos frog
+    //player.setPosition(13200.f, HEIGHT - 400.f);
 }
 
 bool Game::update(float dt)
 {
-    // --- NEW: Update Cooldown Timer ---
-    if (switchCooldown > 0.f) {
-        switchCooldown -= dt;
-    }
+    if (switchCooldown > 0.f) switchCooldown -= dt;
 
     player.updateMovement();
     player.onGround = false;
 
     for (auto& p : platforms) p.update(dt);
     for (auto& o : obstacles) o.update(dt, player.getPosition().x);
-    
-    rain.updateSpikeRain(dt, player.getPosition().x);
 
-    if (rain.checkSpikeCollision(player.getGlobalBounds())) {
-        return true; // player dies
-    }
+    rain.updateSpikeRain(dt, player.getPosition().x);
+    if (rain.checkSpikeCollision(player.getGlobalBounds())) return true;
 
     CollisionManager::resolveAll(player, platforms, ground, player.velY, player.onGround);
 
     player.updateAnimation();
     syncRunSound();
 
-    // 5. CHECK DEATH CONDITIONS
     if (checkObstacleCollision()) return true;
-
-    // Bottom Border
     if (player.getPosition().y > HEIGHT + 100) return true;
-
-    // Top Border (Only if reversed)
     if (player.isGravityReversed && player.getPosition().y < -100) return true;
 
     float direction = 0;
     if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::Left)) direction = -1;
     else if (Keyboard::isKeyPressed(Keyboard::D) || Keyboard::isKeyPressed(Keyboard::Right)) direction = 1;
 
-    if (direction != 0)
-    {
-        if (player.currentForm == Player::FROG && player.currentState == Player::JUMP)
-        {
+    if (direction != 0) {
+        if (!(player.currentForm == Player::FROG && player.currentState == Player::JUMP)) {
             bg.update(dt, direction, 3, bg.layerCount);
         }
     }
@@ -109,21 +92,26 @@ bool Game::checkObstacleCollision()
 
             // CASE 1: GRAVITY SWITCH
             if (obstacles[i].getType() == Obstacle::GRAVITY_SWITCH) {
-
-               
                 if (switchCooldown <= 0.f) {
                     player.setGravityReversed(!player.isGravityReversed);
                     if (soundMgr) soundMgr->playSFX("jump");
-
                     switchCooldown = 0.5f;
                 }
-
-
                 obstacles.erase(obstacles.begin() + i);
                 return false;
             }
 
-            // CASE 2: DEADLY TRAP
+            // CASE 2: FROG ITEM (Added this check!)
+            if (obstacles[i].getType() == Obstacle::FROG_ITEM) {
+                player.switchForm(); // Transform to Frog
+                if (soundMgr) soundMgr->playSFX("jump");
+
+                // Delete item so we don't hit it again
+                obstacles.erase(obstacles.begin() + i);
+                return false; // Return FALSE so we don't die!
+            }
+
+            // CASE 3: DEADLY TRAP
             if (soundMgr) soundMgr->stopSFX("run");
             return true;
         }
@@ -131,60 +119,45 @@ bool Game::checkObstacleCollision()
     return false;
 }
 
-void Game::draw(RenderWindow& window)
-{
+void Game::draw(RenderWindow& window) {
     window.setView(camera);
     bg.draw(window);
     ground.draw(window);
-
     for (auto& p : treesProp) if (isVisible(p)) window.draw(p);
-
     BGground.draw(window);
-
     for (auto& plat : platforms) plat.draw(window);
     for (auto& o : obstacles) o.draw(window);
-
     rain.drawSpikeRain(window);
-
     player.draw(window);
-
     for (auto& p : leavesProp) if (isVisible(p)) window.draw(p);
 }
 
-void Game::syncRunSound()
-{
+void Game::syncRunSound() {
     if (!soundMgr) return;
-    bool running = player.isRunningOnGround();
-    if (running) soundMgr->playSFX("run", true);
+    if (player.isRunningOnGround()) soundMgr->playSFX("run", true);
     else soundMgr->stopSFX("run");
 }
 
-bool Game::isVisible(const sf::Sprite& sprite)
-{
-    sf::FloatRect camRect(
-        camera.getCenter().x - WIDTH / 2.f,
-        camera.getCenter().y - HEIGHT / 2.f,
-        WIDTH,
-        HEIGHT
-    );
+bool Game::isVisible(const sf::Sprite& sprite) {
+    sf::FloatRect camRect(camera.getCenter().x - WIDTH / 2.f, camera.getCenter().y - HEIGHT / 2.f, WIDTH, HEIGHT);
     return sprite.getGlobalBounds().intersects(camRect);
 }
 
-void Game::reset()
-{
+void Game::reset() {
     player.hitbox.setPosition(300.f, 300.f);
     player.velY = 0.f;
     player.onGround = false;
     player.setGravityReversed(false);
+
+    // Force switch back to Human on reset
+    if (player.currentForm == Player::FROG) player.switchForm();
+
     player.currentState = Player::IDLE;
     player.currentFrame = 0;
     player.sprite.setTexture(player.tIdle);
     player.sprite.setTextureRect(IntRect(0, 0, player.frameW, player.frameH));
     camera.setCenter(WIDTH / 2.f, HEIGHT / 2.f);
-
-    // Reset timer
     switchCooldown = 0.f;
-
     syncRunSound();
 
     platforms.clear();
