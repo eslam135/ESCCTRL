@@ -13,7 +13,7 @@ Game::Game(float W, float H, SoundManager* sm)
     : WIDTH(W), HEIGHT(H),
     rain(80, W, H),
     bg(5, W * 10000.f, H, { 0.f, 0.f , 12.f, 18.f , 60.f }, 0),
-    BGground(1, W * 10000.f, H + 100, { 0.f }, 5),
+    BGground(1, W * 10000.f, H, { 0.f }, 5),
     ground(0.f, H - 200.f, W * 10000.f - 100.f, 200.f, Color(0, 255, 0, 0))
 {
     soundMgr = sm;
@@ -43,6 +43,8 @@ Game::Game(float W, float H, SoundManager* sm)
     Texture t;
     if (t.loadFromFile("Assets/Props/Leaves1.png")) propTextures.push_back(t);
     if (t.loadFromFile("Assets/Props/Tree.png"))    propTextures.push_back(t);
+    if (t.loadFromFile("Assets/Props/Leaves2.png")) propTextures.push_back(t);
+    if (t.loadFromFile("Assets/Props/Leaves3.png")) propTextures.push_back(t);
 
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
 }

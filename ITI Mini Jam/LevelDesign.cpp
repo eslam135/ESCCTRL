@@ -9,8 +9,8 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 {
     // Ground level is at Height - 200.
     float GROUND_TOP = height - 200.f;
-    float SPIKE_Y = GROUND_TOP - 80.f;
-    float THORNS_Y = GROUND_TOP;
+    float SPIKE_Y = GROUND_TOP - 100.f;
+    float THORNS_Y = GROUND_TOP - 20.f;
 
     // --- 1. HUMAN SECTION ---
 
@@ -167,49 +167,73 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     obstacles.emplace_back(obstacleTex, towerX + 700.f, GROUND_TOP - 180.f, 50.f, 50.f, Obstacle::FROG_ITEM);
 }
-
-void LevelDesign::buildProps(float width, float height,
+void LevelDesign::buildProps(
+    float width,
+    float height,
     vector<Sprite>& trees,
     vector<Sprite>& leaves,
     const vector<Texture>& propTextures)
 {
     srand((unsigned)time(0));
-    int numProps = 600;
 
-    const float MIN_X_DISTANCE = 200.f;
-    const float MAX_EXTRA_GAP = 250.f;   // adds variation
+    const float WORLD_WIDTH = width * 18.f;
+    const float GROUND_TOP = height - 200.f;
 
-    float currentX = 100.f;
-    float maxX = width * 18.f - 200.f;
+    const int NUM_TREES = 150;
+    const int NUM_LEAVES = 450;
 
-    for (int i = 0; i < numProps && currentX < maxX; i++)
+    float treeX = 150.f;
+    float leafX = 100.f;
+
+    const float TREE_MIN_SPACING = 2000.f;
+    const float TREE_MAX_SPACING = 3000.f;
+    const float LEAF_MIN_SPACING = 300.f;
+    const float LEAF_MAX_SPACING = 1200.f;
+
+    /* ---------------- Trees ---------------- */
+    for (int i = 0; i < NUM_TREES && treeX < WORLD_WIDTH - 200.f; i++)
     {
         Sprite s;
-        int typeIndex = rand() % propTextures.size();
-        s.setTexture(propTextures[typeIndex]);
+        s.setTexture(propTextures[1]); // tree texture
+        s.setScale(1.f, 1.f);
 
-        // advance forward by at least 200 px + some randomness
-        float gap = MIN_X_DISTANCE +
-            static_cast<float>(rand()) / RAND_MAX * MAX_EXTRA_GAP;
+        float y = height - 50.f - s.getTexture()->getSize().y;
 
-        currentX += gap;
+        s.setPosition(
+            treeX + rand() % 40 - 20, // small variation
+            y
+        );
 
-        float y;
-        float GROUND_TOP = height - 200.f;
+        trees.push_back(s);
 
-        if (typeIndex == 0)
-        {
-            s.setScale(0.4f, 0.4f);
-            y = GROUND_TOP - s.getTexture()->getSize().y * 0.4f;
-            leaves.push_back(s);
-        }
-        else
-        {
-            s.setScale(1.f, 1.f);
-            y = height - 50.f - s.getTexture()->getSize().y;
-            trees.push_back(s);
-        }
-
-        s.setPosition(currentX, y);
+        treeX += TREE_MIN_SPACING +
+            rand() % int(TREE_MAX_SPACING - TREE_MIN_SPACING);
     }
+    /* ---------------- Leaves ---------------- */
+    for (int i = 0; i < NUM_LEAVES && leafX < WORLD_WIDTH - 100.f; i++)
+    {
+        Sprite s;
+
+        // Random leaf variation (0, 2, 3)
+        int leafIndex = (rand() % 3);
+        int textureIndex = (leafIndex == 0) ? 0 : (leafIndex == 1 ? 2 : 3);
+
+        s.setTexture(propTextures[textureIndex]);
+        s.setScale(0.4f, 0.4f);
+
+        float y = GROUND_TOP -
+            s.getTexture()->getSize().y * 0.4f;
+
+        s.setPosition(
+            leafX + rand() % 30 - 15,
+            y + 30
+        );
+
+        leaves.push_back(s);
+
+        leafX += LEAF_MIN_SPACING +
+            rand() % int(LEAF_MAX_SPACING - LEAF_MIN_SPACING);
+    }
+
+
 }
