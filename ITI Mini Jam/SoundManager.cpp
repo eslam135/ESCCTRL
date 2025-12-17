@@ -17,6 +17,7 @@ SoundManager::SoundManager()
     ensureBuffer("run", "Assets/SFX/run.ogg.opus", true);
     ensureBuffer("landing", "Assets/SFX/land.ogg");
     ensureBuffer("rain", "Assets/SFX/rain.mp3");
+    ensureBuffer("FrogJump", "Assets/SFX/FrogJump.ogg");
 
     applyVolumes();
 }

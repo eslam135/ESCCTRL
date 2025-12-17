@@ -14,7 +14,6 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     // --- 1. HUMAN SECTION ---
 
-
     platforms.emplace_back(platformTex, 900.f, GROUND_TOP - 150.f, 200.f, 50.f);
     platforms.emplace_back(platformTex, 1300.f, GROUND_TOP - 300.f, 200.f, 50.f);
 
@@ -56,7 +55,9 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     // --- GRAVITY SWITCH ---
     platforms.emplace_back(platformTex, 6800.f, GROUND_TOP - 100.f, 200.f, 50.f);
-    obstacles.emplace_back(obstacleTex, 6900.f, GROUND_TOP - 180.f, 50.f, -50.f, Obstacle::GRAVITY_SWITCH);
+
+    // FIX: Made this a full-height column (y=0, h=height) so you can't jump over it
+    obstacles.emplace_back(obstacleTex, 6900.f, 0.f, 50.f, height, Obstacle::GRAVITY_SWITCH);
 
     platforms.emplace_back(platformTex, 7100.f, 100.f, 600.f, -50.f); // Ceiling
     obstacles.emplace_back(obstacleTex, 7300.f, 150.f, 100.f, -100.f, Obstacle::STATIC);
@@ -76,9 +77,9 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     // Switch Back
     platforms.emplace_back(platformTex, 9600.f, 100.f, 200.f, 50.f);
-    obstacles.emplace_back(obstacleTex, 9800.f, 150.f, 50.f, 50.f, Obstacle::GRAVITY_SWITCH);
-    obstacles.emplace_back(obstacleTex, 9800.f, 250.f, 50.f, 50.f, Obstacle::GRAVITY_SWITCH);
-    obstacles.emplace_back(obstacleTex, 9800.f, 350.f, 50.f, 50.f, Obstacle::GRAVITY_SWITCH);
+
+    // FIX: Replaced stacked small switches with one giant vertical trigger
+    obstacles.emplace_back(obstacleTex, 9800.f, 0.f, 50.f, height, Obstacle::GRAVITY_SWITCH);
 
     platforms.emplace_back(platformTex, 9900.f, GROUND_TOP - 200.f, 400.f, 50.f);
 
@@ -110,10 +111,12 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
 
     // --- 8. FROG PHASE (REDESIGNED) ---
- 
+
 
     platforms.emplace_back(platformTex, 13200.f, GROUND_TOP - 100.f, 400.f, 50.f);
-    obstacles.emplace_back(obstacleTex, 13400.f, GROUND_TOP - 180.f, 50.f, 50.f, Obstacle::FROG_ITEM);
+
+    // FIX: Frog item is now a full vertical column
+    obstacles.emplace_back(obstacleTex, 13400.f, 0.f, 50.f, height, Obstacle::FROG_ITEM);
 
 
     for (float tx = 13600.f; tx < 18000.f; tx += 50.f) {
@@ -164,9 +167,10 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     platforms.emplace_back(platformTex, towerX + 600.f, GROUND_TOP - 200.f, 1000.f, 50.f);
 
-
-    obstacles.emplace_back(obstacleTex, towerX + 700.f, GROUND_TOP - 180.f, 50.f, 50.f, Obstacle::FROG_ITEM);
+    // FIX: Last frog item also full height
+    obstacles.emplace_back(obstacleTex, towerX + 700.f, 0.f, 50.f, height, Obstacle::FROG_ITEM);
 }
+
 void LevelDesign::buildProps(
     float width,
     float height,
@@ -234,6 +238,4 @@ void LevelDesign::buildProps(
         leafX += LEAF_MIN_SPACING +
             rand() % int(LEAF_MAX_SPACING - LEAF_MIN_SPACING);
     }
-
-
 }

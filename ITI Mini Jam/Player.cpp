@@ -77,7 +77,7 @@ void Player::updateMovement()
             velY = -23.f * gravityDir; // Higher jump for frog
             onGround = false;
             facingRight = sprite.getScale().x > 0 ? true : false;
-            if (soundMgr) soundMgr->playSFX("jump");
+            if (soundMgr) soundMgr->playSFX("FrogJump");
         }
 
         velY += gravity * gravityDir;
