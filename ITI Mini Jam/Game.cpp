@@ -47,6 +47,8 @@ Game::Game(float W, float H, SoundManager* sm)
     if (t.loadFromFile("Assets/Props/Leaves3.png")) propTextures.push_back(t);
 
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
+
+    //player.setPosition(13200.f, HEIGHT - 400.f);
 }
 
 bool Game::update(float dt)
