@@ -48,7 +48,8 @@ Game::Game(float W, float H, SoundManager* sm)
 
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
 
-    //player.setPosition(13200.f, HEIGHT - 400.f);
+	//player.setPosition(6500.f, HEIGHT - 400.f); // gravity switch part
+    //player.setPosition(13200.f, HEIGHT - 400.f); // frog shapeshift part
 }
 
 bool Game::update(float dt)
