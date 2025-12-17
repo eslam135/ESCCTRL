@@ -1,17 +1,17 @@
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\CollisionManager.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\CollisionManager.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Game.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Game.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\GameOverScreen.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\GameOverScreen.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Level2.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Level2.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\LevelDesign.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\LevelDesign.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Main.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Main.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Menu.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Menu.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\OptionsMenu.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\OptionsMenu.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\ParallaxBackground.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\ParallaxBackground.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\PauseMenu.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\PauseMenu.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Platform.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Platform.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Player.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Player.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\RainSystem.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\RainSystem.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\SoundManager.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\SoundManager.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\Obstacle.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\Obstacle.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\UI.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\UI.obj
-G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\WinningScreen.cpp;G:\iti\Mini Jam (Eslam's GitHub)\ITI Mini Jam\x64\Release\WinningScreen.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\CollisionManager.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\CollisionManager.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Game.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Game.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\GameOverScreen.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\GameOverScreen.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Level2.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Level2.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\LevelDesign.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\LevelDesign.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Main.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Main.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Menu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Menu.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\OptionsMenu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\OptionsMenu.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\ParallaxBackground.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\ParallaxBackground.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\PauseMenu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\PauseMenu.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Platform.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Platform.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Player.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Player.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\RainSystem.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\SoundManager.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\SoundManager.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Obstacle.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\Obstacle.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\UI.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\UI.obj
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\WinningScreen.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Release\WinningScreen.obj

@@ -1,7 +1,28 @@
-﻿  Game.cpp
+﻿  CollisionManager.cpp
+  Game.cpp
+  GameOverScreen.cpp
+  Level2.cpp
+  LevelDesign.cpp
+  Main.cpp
+  Menu.cpp
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\Menu.cpp(63,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  OptionsMenu.cpp
+  ParallaxBackground.cpp
+  PauseMenu.cpp
+  Platform.cpp
+  Player.cpp
+  RainSystem.cpp
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp(18,77): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp(18,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp(19,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp(31,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\RainSystem.cpp(46,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  SoundManager.cpp
+  Obstacle.cpp
+  UI.cpp
+  WinningScreen.cpp
   Generating code
-  1 of 1575 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB was built with incompatible compiler, fall back to full compilation.
+  All 1582 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  ITI Mini Jam.vcxproj -> G:\iti\Mini Jam (Eslam's GitHub)\x64\Release\ITI Mini Jam.exe
+  ITI Mini Jam.vcxproj -> C:\Users\mahmo\source\repos\ESCCTRL\x64\Release\ITI Mini Jam.exe
