@@ -1,4 +1,4 @@
-#include "Platform.h"
+#include "../include/Platform.h"
 #include <cmath>
 
 using namespace sf;

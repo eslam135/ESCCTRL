@@ -1,10 +1,10 @@
-#include "Menu.h"
+#include "../include/Menu.h"
 
-#include <filesystem>
-#include <thread>
-#include <vector>
-#include <algorithm>
-#include <iostream>
+#include <../include/filesystem>
+#include <../include/thread>
+#include <../include/vector>
+#include <../include/algorithm>
+#include <../include/iostream>
 
 using namespace sf;
 using namespace std;

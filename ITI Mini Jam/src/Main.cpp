@@ -1,13 +1,13 @@
 ﻿#include <SFML/Graphics.hpp>
 
-#include "Game.h"
-#include "Menu.h"
-#include "OptionsMenu.h"
-#include "RainSystem.h"
-#include "GameOverScreen.h"
-#include "WinningScreen.h"
-#include "SoundManager.h"
-#include "PauseMenu.h"
+#include "../include/Game.h"
+#include "../include/Menu.h"
+#include "../include/OptionsMenu.h"
+#include "../include/RainSystem.h"
+#include "../include/GameOverScreen.h"
+#include "../include/WinningScreen.h"
+#include "../include/SoundManager.h"
+#include "../include/PauseMenu.h"
 
 using namespace sf;
 

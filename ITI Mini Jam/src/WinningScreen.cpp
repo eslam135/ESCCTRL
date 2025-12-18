@@ -1,4 +1,4 @@
-#include "WinningScreen.h"
+#include "../include/WinningScreen.h"
 #include <iostream>
 
 using namespace sf;

@@ -1,4 +1,4 @@
-#include "LevelDesign.h"
+#include "../include/LevelDesign.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -99,7 +99,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     float TUNNEL_Y = GROUND_TOP - 100.f;
     platforms.emplace_back(platformTex, 11300.f, TUNNEL_Y, 800.f, 50.f);
     obstacles.emplace_back(thornsTex, 11500.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
-    obstacles.emplace_back(obstacleTex, 11700.f, TUNNEL_Y - 400.f, 80.f, 80.f, Obstacle::FALLING);
+    obstacles.emplace_back(obstacleTex, 11700.f, TUNNEL_Y - 400.f, 80.f, -80.f, Obstacle::FALLING);
 
     // Boss Jump
     Platform bossPlat(platformTex, 12300.f, GROUND_TOP - 200.f, 150.f, 40.f);

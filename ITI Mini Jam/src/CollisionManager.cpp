@@ -1,4 +1,4 @@
-#include "CollisionManager.h"
+#include "../include/CollisionManager.h"
 #include <algorithm>
 
 using namespace sf;

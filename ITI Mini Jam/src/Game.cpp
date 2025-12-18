@@ -1,10 +1,10 @@
-#include "Game.h"
+#include "../include/Game.h"
 #include <iostream>
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
-#include "LevelDesign.h"
-#include "Level2.h"
+#include "../include/LevelDesign.h"
+#include "../include/Level2.h"
 
 using namespace sf;
 using namespace std;
@@ -49,7 +49,7 @@ Game::Game(float W, float H, SoundManager* sm)
     LevelDesign::buildProps(WIDTH, HEIGHT, treesProp, leavesProp, propTextures);
 
 	//player.setPosition(6500.f, HEIGHT - 400.f); // gravity switch part
-    player.setPosition(13200.f, HEIGHT - 400.f); // frog shapeshift part
+    //player.setPosition(13200.f, HEIGHT - 400.f); // frog shapeshift part
 }
 
 bool Game::update(float dt)

@@ -1,4 +1,4 @@
-#include "ParallaxBackground.h"
+#include "../include/ParallaxBackground.h"
 
 #include <cmath>
 #include <iostream>

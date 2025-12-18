@@ -1,4 +1,4 @@
-#include "SoundManager.h"
+#include "../include/SoundManager.h"
 
 #include <iostream>
 

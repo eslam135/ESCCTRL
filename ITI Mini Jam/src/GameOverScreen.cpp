@@ -1,4 +1,4 @@
-#include "GameOverScreen.h"
+#include "../include/GameOverScreen.h"
 #include <iostream>
 
 using namespace sf;

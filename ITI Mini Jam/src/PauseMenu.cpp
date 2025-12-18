@@ -1,4 +1,4 @@
-#include "PauseMenu.h"
+#include "../include/PauseMenu.h"
 #include <iostream>
 
 using namespace sf;
