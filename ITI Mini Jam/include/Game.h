@@ -34,10 +34,9 @@ public:
     Texture spikeTex;
     RainSystem rain;
 
-    // ---------- WIN MARKER ----------
     sf::Texture winMarkerTex;
     sf::Sprite  winMarker;
-    float WIN_X = 18000.f;
+    float WIN_X = 19600.f;
 
     float WIDTH, HEIGHT;
     float WORLD_LEFT = 0.f;
@@ -54,7 +53,6 @@ public:
 
     const sf::View& getCamera() const { return camera; }
 
-    // ---------- NEW ----------
     bool hasWon() const;
 
 private:

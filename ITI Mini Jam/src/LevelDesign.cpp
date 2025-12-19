@@ -20,7 +20,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     Platform lift(platformTex, 1700.f, GROUND_TOP - 200.f, 200.f, 50.f);
     lift.setMovement(0.f, -300.f, 2.f);
     platforms.push_back(lift);
-    obstacles.emplace_back(thornsTex, 1750.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
+    obstacles.emplace_back(thornsTex, 1750.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
 
     platforms.emplace_back(platformTex, 2100.f, GROUND_TOP - 450.f, 400.f, 50.f);
     Platform bridge(platformTex, 2600.f, GROUND_TOP - 450.f, 500.f, 50.f);
@@ -33,25 +33,33 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     obstacles.emplace_back(obstacleTex, 2900.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
 
     Platform mover1(platformTex, 3300.f, GROUND_TOP - 400.f, 150.f, 40.f);
-    mover1.setMovement(300.f, 0.f, 1.5f);
+    mover1.setMovement(210.f, 0.f, 1.5f);
     platforms.push_back(mover1);
     obstacles.emplace_back(obstacleTex, 3300.f, THORNS_Y, 80.f, 50.f, Obstacle::STATIC);
 
     Platform mover2(platformTex, 3900.f, GROUND_TOP - 400.f, 150.f, 40.f);
-    mover2.setMovement(-300.f, 0.f, 1.5f);
+    mover2.setMovement(-250.f, 0.f, 1.5f);
     platforms.push_back(mover2);
-    obstacles.emplace_back(obstacleTex, 3900.f, THORNS_Y, 80.f, 50.f, Obstacle::STATIC);
 
     platforms.emplace_back(platformTex, 4500.f, GROUND_TOP - 300.f, 800.f, 50.f);
     obstacles.emplace_back(thornsTex, 4700.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
     obstacles.emplace_back(thornsTex, 4900.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
     obstacles.emplace_back(thornsTex, 5100.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
 
+
+
+
+    for (float x = 4500.f; x <= 5150.f; x += 50.f) {
+        obstacles.emplace_back(obstacleTex, x, THORNS_Y, 80.f, 50.f, Obstacle::STATIC);
+    }
+
+
+
     platforms.emplace_back(platformTex, 5500.f, GROUND_TOP - 200.f, 200.f, 50.f);
     Platform hard(platformTex, 5900.f, GROUND_TOP - 200.f, 100.f, 40.f);
     hard.setMovement(0.f, 200.f, 4.f);
     platforms.push_back(hard);
-    obstacles.emplace_back(thornsTex, 5900.f, THORNS_Y, 150.f, 50.f, Obstacle::STATIC);
+    obstacles.emplace_back(thornsTex, 5900.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
 
     // --- GRAVITY SWITCH ---
     platforms.emplace_back(platformTex, 6800.f, GROUND_TOP - 100.f, 200.f, 50.f);
@@ -76,9 +84,8 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     obstacles.emplace_back(obstacleTex, 9200.f, 50.f, 100.f, -100.f, Obstacle::STATIC);
 
     // Switch Back
-    platforms.emplace_back(platformTex, 9600.f, 100.f, 200.f, 50.f);
+    platforms.emplace_back(platformTex, 9600.f, 100.f, 200.f, -50.f);
 
-    // FIX: Replaced stacked small switches with one giant vertical trigger
     obstacles.emplace_back(obstacleTex, 9800.f, 0.f, 50.f, height, Obstacle::GRAVITY_SWITCH);
 
     platforms.emplace_back(platformTex, 9900.f, GROUND_TOP - 200.f, 400.f, 50.f);
@@ -115,7 +122,6 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     platforms.emplace_back(platformTex, 13200.f, GROUND_TOP - 100.f, 400.f, 50.f);
 
-    // FIX: Frog item is now a full vertical column
     obstacles.emplace_back(obstacleTex, 13400.f, 0.f, 50.f, height, Obstacle::FROG_ITEM);
 
 
@@ -167,8 +173,10 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     platforms.emplace_back(platformTex, towerX + 600.f, GROUND_TOP - 200.f, 1000.f, 50.f);
 
-    // FIX: Last frog item also full height
     obstacles.emplace_back(obstacleTex, towerX + 700.f, 0.f, 50.f, height, Obstacle::FROG_ITEM);
+
+
+
 }
 
 void LevelDesign::buildProps(

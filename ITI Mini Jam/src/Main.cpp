@@ -60,6 +60,7 @@ int main()
             {
                 if (gameState == PLAYING_STATE)
                 {
+                    soundMgr.stopSFX("run");
                     previousState = gameState;
                     gameState = PAUSED_STATE;
                 }
@@ -139,8 +140,16 @@ int main()
             bool died = game->update(dt);
             game->draw(window);
 
-            if (died) gameState = GAMEOVER_STATE;
-            else if (game->hasWon()) gameState = WINNING_STATE;
+            if (died)
+            {
+                soundMgr.stopSFX("run");
+                gameState = GAMEOVER_STATE;
+            }
+            else if (game->hasWon())
+            {
+                soundMgr.stopSFX("run");
+                gameState = WINNING_STATE;
+            }
         }
         else if (gameState == PAUSED_STATE && game)
         {

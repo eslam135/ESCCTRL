@@ -20,7 +20,9 @@ public:
         std::vector<Obstacle>& obstacles,
         const sf::Texture& platformTex,
         const sf::Texture& obstacleTex,
-        const sf::Texture& thornsTex );
+        const sf::Texture& thornsTex 
+        
+    );
 
     static void buildProps(
         float width,

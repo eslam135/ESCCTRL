@@ -1,26 +1,2 @@
-﻿  CollisionManager.cpp
-  Game.cpp
-  GameOverScreen.cpp
-  Level2.cpp
-  LevelDesign.cpp
-  Main.cpp
-  Menu.cpp
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Menu.cpp(63,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Obstacle.cpp
-  OptionsMenu.cpp
-  ParallaxBackground.cpp
-  PauseMenu.cpp
-  Platform.cpp
-  Player.cpp
-  RainSystem.cpp
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp(18,77): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp(18,37): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp(19,24): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp(31,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp(46,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  SoundManager.cpp
-  UI.cpp
-  WinningScreen.cpp
-  Generating Code...
-  LINK : C:\Users\mahmo\source\repos\ESCCTRL\x64\Debug\ITI Mini Jam.exe not found or not built by the last incremental link; performing full link
+﻿  Main.cpp
   ITI Mini Jam.vcxproj -> C:\Users\mahmo\source\repos\ESCCTRL\x64\Debug\ITI Mini Jam.exe
