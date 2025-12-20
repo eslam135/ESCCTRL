@@ -99,13 +99,13 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     Platform fall3(platformTex, 11000.f, GROUND_TOP - 300.f, 120.f, 40.f);
     platforms.push_back(fall3);
     for (float x = 10300.f; x < 11200.f; x += 100.f) {
-        obstacles.emplace_back(thornsTex, x, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
+        obstacles.emplace_back(thornsTex, x, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
     }
 
     // Tunnel
     float TUNNEL_Y = GROUND_TOP - 100.f;
     platforms.emplace_back(platformTex, 11300.f, TUNNEL_Y, 800.f, 50.f);
-    obstacles.emplace_back(thornsTex, 11500.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
+    obstacles.emplace_back(thornsTex, 11500.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
     obstacles.emplace_back(obstacleTex, 11700.f, TUNNEL_Y - 400.f, 80.f, -80.f, Obstacle::FALLING);
 
     // Boss Jump
@@ -126,7 +126,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
 
     for (float tx = 13600.f; tx < 18000.f; tx += 50.f) {
-        obstacles.emplace_back(thornsTex, tx, THORNS_Y, 50.f, 50.f, Obstacle::STATIC);
+        obstacles.emplace_back(thornsTex, tx, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
     }
 
     float frogX = 13800.f;
