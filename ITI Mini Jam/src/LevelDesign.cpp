@@ -5,7 +5,7 @@
 using namespace std;
 using namespace sf;
 
-void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<Obstacle>& obstacles, const Texture& platformTex, const Texture& obstacleTex, const Texture& thornsTex)
+void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<Obstacle>& obstacles, const Texture& platformTex, const Texture& obstacleTex, const Texture& circleThornsTex, const Texture& shortThornsTexture, const Texture& mediumThornsTexture, const Texture& longThornsTexture)
 {
     // Ground level is at Height - 200.
     float GROUND_TOP = height - 200.f;
@@ -20,7 +20,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     Platform lift(platformTex, 1700.f, GROUND_TOP - 200.f, 200.f, 50.f);
     lift.setMovement(0.f, -300.f, 2.f);
     platforms.push_back(lift);
-    obstacles.emplace_back(thornsTex, 1750.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
+    obstacles.emplace_back(shortThornsTexture, 1750.f, THORNS_Y, 130.5f, 45.f, Obstacle::STATIC);
 
     platforms.emplace_back(platformTex, 2100.f, GROUND_TOP - 450.f, 400.f, 50.f);
     Platform bridge(platformTex, 2600.f, GROUND_TOP - 450.f, 500.f, 50.f);
@@ -28,28 +28,24 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     obstacles.emplace_back(obstacleTex, 2700.f, GROUND_TOP - 850.f, 80.f, -80.f, Obstacle::FALLING);
     obstacles.emplace_back(obstacleTex, 2900.f, GROUND_TOP - 850.f, 80.f, -80.f, Obstacle::FALLING);
 
-    // Floor traps
-    obstacles.emplace_back(obstacleTex, 2700.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
-    obstacles.emplace_back(obstacleTex, 2900.f, THORNS_Y, 100.f, 50.f, Obstacle::STATIC);
 
     Platform mover1(platformTex, 3300.f, GROUND_TOP - 400.f, 150.f, 40.f);
     mover1.setMovement(210.f, 0.f, 1.5f);
     platforms.push_back(mover1);
-    obstacles.emplace_back(obstacleTex, 3300.f, THORNS_Y, 80.f, 50.f, Obstacle::STATIC);
 
     Platform mover2(platformTex, 3900.f, GROUND_TOP - 400.f, 150.f, 40.f);
     mover2.setMovement(-250.f, 0.f, 1.5f);
     platforms.push_back(mover2);
 
     platforms.emplace_back(platformTex, 4500.f, GROUND_TOP - 300.f, 800.f, 50.f);
-    obstacles.emplace_back(thornsTex, 4700.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
-    obstacles.emplace_back(thornsTex, 4900.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
-    obstacles.emplace_back(thornsTex, 5100.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 4700.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 4900.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 5100.f, GROUND_TOP - 380.f, 90.f, 90.f, Obstacle::ROTATING);
 
 
 
 
-    for (float x = 4500.f; x <= 5150.f; x += 50.f) {
+    for (float x = 3100.f; x <= 4500.f; x += 50.f) {
         obstacles.emplace_back(obstacleTex, x, THORNS_Y, 80.f, 50.f, Obstacle::STATIC);
     }
 
@@ -59,7 +55,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     Platform hard(platformTex, 5900.f, GROUND_TOP - 200.f, 100.f, 40.f);
     hard.setMovement(0.f, 200.f, 4.f);
     platforms.push_back(hard);
-    obstacles.emplace_back(thornsTex, 5900.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
+    obstacles.emplace_back(shortThornsTexture, 5900.f, THORNS_Y, 130.f, 45.f, Obstacle::STATIC);
 
     // --- GRAVITY SWITCH ---
     platforms.emplace_back(platformTex, 6800.f, GROUND_TOP - 100.f, 200.f, 50.f);
@@ -68,15 +64,15 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     obstacles.emplace_back(obstacleTex, 6900.f, 0.f, 50.f, height, Obstacle::GRAVITY_SWITCH);
 
     platforms.emplace_back(platformTex, 7100.f, 100.f, 600.f, -50.f); // Ceiling
-    obstacles.emplace_back(obstacleTex, 7300.f, 150.f, 100.f, -100.f, Obstacle::STATIC);
+    obstacles.emplace_back(obstacleTex, 7300.f, 180.f, 100.f, -100.f, Obstacle::STATIC);
 
     Platform ceilMover(platformTex, 7800.f, 100.f, 200.f, -50.f);
     ceilMover.setMovement(0.f, 200.f, 2.f);
     platforms.push_back(ceilMover);
 
     platforms.emplace_back(platformTex, 8200.f, 100.f, 800.f, -50.f);
-    obstacles.emplace_back(thornsTex, 8400.f, 150.f, 90.f, -90.f, Obstacle::ROTATING);
-    obstacles.emplace_back(thornsTex, 8700.f, 150.f, 90.f, -90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 8400.f, 150.f, 90.f, -90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 8700.f, 150.f, 90.f, -90.f, Obstacle::ROTATING);
 
     Platform ceilMover2(platformTex, 9200.f, 200.f, 150.f, -50.f);
     ceilMover2.setMovement(0.f, -150.f, 1.5f);
@@ -93,26 +89,37 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     // Falling Platforms
     Platform fall1(platformTex, 10400.f, GROUND_TOP - 200.f, 120.f, 40.f);
     platforms.push_back(fall1);
-    obstacles.emplace_back(obstacleTex, 10400.f, GROUND_TOP - 600.f, 100.f, -100.f, Obstacle::FALLING);
+    obstacles.emplace_back(obstacleTex, 10400.f, GROUND_TOP - 800.f, 100.f, -100.f, Obstacle::FALLING);
     Platform fall2(platformTex, 10700.f, GROUND_TOP - 100.f, 120.f, 40.f);
     platforms.push_back(fall2);
+    obstacles.emplace_back(obstacleTex, 10700.f, GROUND_TOP - 800.f, 100.f, -100.f, Obstacle::FALLING);
     Platform fall3(platformTex, 11000.f, GROUND_TOP - 300.f, 120.f, 40.f);
     platforms.push_back(fall3);
-    for (float x = 10300.f; x < 11200.f; x += 100.f) {
-        obstacles.emplace_back(thornsTex, x, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
+    obstacles.emplace_back(obstacleTex, 11000.f, GROUND_TOP - 800.f, 100.f, -100.f, Obstacle::FALLING);
+
+
+
+    bool zigZag = false;
+
+    float sWidth = 130.f;
+    float sHeight = 45.f;
+
+    for (float x = 10300.f; x < 11200.f; x += 70.f) {
+        float currentY = zigZag ? THORNS_Y + 15.f : THORNS_Y;
+        obstacles.emplace_back(shortThornsTexture, x, currentY, sWidth, sHeight, Obstacle::STATIC);
+        zigZag = !zigZag;
     }
 
     // Tunnel
     float TUNNEL_Y = GROUND_TOP - 100.f;
     platforms.emplace_back(platformTex, 11300.f, TUNNEL_Y, 800.f, 50.f);
-    obstacles.emplace_back(thornsTex, 11500.f, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
     obstacles.emplace_back(obstacleTex, 11700.f, TUNNEL_Y - 400.f, 80.f, -80.f, Obstacle::FALLING);
 
     // Boss Jump
     Platform bossPlat(platformTex, 12300.f, GROUND_TOP - 200.f, 150.f, 40.f);
     bossPlat.setMovement(0.f, 300.f, 3.f);
     platforms.push_back(bossPlat);
-    obstacles.emplace_back(thornsTex, 12300.f, height - 600.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, 12300.f, height - 600.f, 90.f, 90.f, Obstacle::ROTATING);
 
     platforms.emplace_back(platformTex, 12600.f, GROUND_TOP - 100.f, 400.f, 50.f);
 
@@ -125,8 +132,12 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
     obstacles.emplace_back(obstacleTex, 13400.f, 0.f, 50.f, height, Obstacle::FROG_ITEM);
 
 
-    for (float tx = 13600.f; tx < 18000.f; tx += 50.f) {
-        obstacles.emplace_back(thornsTex, tx, THORNS_Y, 90.f, 90.f, Obstacle::STATIC);
+    zigZag = false; 
+
+    for (float tx = 13600.f; tx < 18000.f; tx += 70.f) {
+        float currentY = zigZag ? THORNS_Y + 15.f : THORNS_Y;
+        obstacles.emplace_back(shortThornsTexture, tx, currentY, sWidth, sHeight, Obstacle::STATIC);
+        zigZag = !zigZag;
     }
 
     float frogX = 13800.f;
@@ -148,7 +159,7 @@ void LevelDesign::buildLevel(float height, vector<Platform>& platforms, vector<O
 
     platforms.emplace_back(platformTex, rainStartX + 800.f, GROUND_TOP - 500.f, 300.f, 50.f);
 
-    obstacles.emplace_back(thornsTex, rainStartX + 500.f, GROUND_TOP - 800.f, 90.f, 90.f, Obstacle::ROTATING);
+    obstacles.emplace_back(circleThornsTex, rainStartX + 500.f, GROUND_TOP - 800.f, 90.f, 90.f, Obstacle::ROTATING);
 
 
 

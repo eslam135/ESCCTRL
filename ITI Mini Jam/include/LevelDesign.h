@@ -20,7 +20,11 @@ public:
         std::vector<Obstacle>& obstacles,
         const sf::Texture& platformTex,
         const sf::Texture& obstacleTex,
-        const sf::Texture& thornsTex 
+        const sf::Texture& circlethornsTex,
+        const sf::Texture& shortThornsTexture,  
+        const sf::Texture& mediumThornsTex,     
+        const sf::Texture& longThornsTex
+
         
     );
 

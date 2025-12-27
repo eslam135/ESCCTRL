@@ -29,7 +29,10 @@ public:
 
     sf::Texture platformTexture;
     sf::Texture obstacleTexture;
-    sf::Texture thornsTexture;
+    sf::Texture circleThornsTexture;
+    sf::Texture shortThornsTexture;
+    sf::Texture mediumThornsTexture;
+    sf::Texture longThornsTexture;
 
     Texture spikeTex;
     RainSystem rain;

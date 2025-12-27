@@ -26,7 +26,7 @@ Game::Game(float W, float H, SoundManager* sm)
     camera.setSize(GAME_WIDTH, GAME_HEIGHT);
     camera.setCenter(GAME_WIDTH / 2.f, GAME_HEIGHT / 2.f);
 
-    // --- 2. PREVENT DEFORMATION (Letterboxing) ---
+    // --- PREVENT DEFORMATION (Letterboxing) ---
     // This math calculates if we need black bars on top/bottom or sides
     // so the game is never stretched or squashed.
     float screenRatio = W / H;
@@ -49,11 +49,14 @@ Game::Game(float W, float H, SoundManager* sm)
 
     if (!platformTexture.loadFromFile("Assets/Platforms/Pltfrm1.png")) cerr << "Platform tex missing\n";
     if (!obstacleTexture.loadFromFile("Assets/Spikes/Spikes2.png")) cerr << "Spike tex missing\n";
-    if (!thornsTexture.loadFromFile("Assets/Thorns/Thorns.png")) cerr << "Thorns tex missing\n";
+    if (!circleThornsTexture.loadFromFile("Assets/Thorns/circleThorns.png")) cerr << "Circle thorns tex missing\n";
+    if (!shortThornsTexture.loadFromFile("Assets/Thorns/shortThorns.png")) cerr << "Short thorns tex missing\n";
+    if (!mediumThornsTexture.loadFromFile("Assets/Thorns/mediumThorns.png")) cerr << "Medium thorns tex missing\n";
+    if (!longThornsTexture.loadFromFile("Assets/Thorns/longThorns.png")) cerr << "Long thorns tex missing\n";
     if (!spikeTex.loadFromFile("Assets/Spikes/Spike.png")) cerr << "Spike rain tex missing\n";
 
     LevelDesign::buildLevel(GAME_HEIGHT, platforms, obstacles,
-        platformTexture, obstacleTexture, thornsTexture);
+        platformTexture, obstacleTexture, circleThornsTexture, shortThornsTexture, mediumThornsTexture, longThornsTexture);
 
     Level2::setupSpikeRain(rain, spikeTex);
 
@@ -73,7 +76,9 @@ Game::Game(float W, float H, SoundManager* sm)
 
     LevelDesign::buildProps(GAME_WIDTH, GAME_HEIGHT, treesProp, leavesProp, propTextures);
 
-    //player.setPosition(6500.f, HEIGHT - 400.f); // gravity switch part
+
+    
+    //player.setPosition(9950.f, HEIGHT - 400.f); // gravity switch part
     //player.setPosition(13200.f, HEIGHT - 400.f); // frog shapeshift part
     //player.setPosition(17900.f, HEIGHT - 400.f); // win sign part
 
@@ -169,12 +174,12 @@ void Game::draw(RenderWindow& window)
 
     bg.draw(window);
     ground.draw(window);
-
     for (auto& p : treesProp) if (isVisible(p)) window.draw(p);
     BGground.draw(window);
+    for (auto& o : obstacles) o.draw(window);
 
     for (auto& plat : platforms) plat.draw(window);
-    for (auto& o : obstacles) o.draw(window);
+
 
     window.draw(winMarker);
 
@@ -216,5 +221,5 @@ void Game::reset() {
     platforms.clear();
     obstacles.clear();
 
-    LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture, thornsTexture);
+    LevelDesign::buildLevel(HEIGHT, platforms, obstacles, platformTexture, obstacleTexture, circleThornsTexture, shortThornsTexture,mediumThornsTexture,longThornsTexture);
 }
