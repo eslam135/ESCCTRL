@@ -1,17 +1,17 @@
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\CollisionManager.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\CollisionManager.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Game.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Game.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\GameOverScreen.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\GameOverScreen.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Level2.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Level2.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\LevelDesign.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\LevelDesign.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Main.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Main.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Menu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Menu.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Obstacle.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Obstacle.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\OptionsMenu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\OptionsMenu.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\ParallaxBackground.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\ParallaxBackground.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\PauseMenu.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\PauseMenu.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Platform.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Platform.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Player.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\Player.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\RainSystem.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\RainSystem.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\SoundManager.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\SoundManager.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\UI.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\UI.obj
-C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\WinningScreen.cpp;C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\x64\Debug\WinningScreen.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\CollisionManager.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\CollisionManager.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Game.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Game.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\GameOverScreen.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\GameOverScreen.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Level2.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Level2.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\LevelDesign.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\LevelDesign.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Main.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Main.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Menu.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Menu.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Obstacle.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Obstacle.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\OptionsMenu.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\OptionsMenu.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\ParallaxBackground.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\ParallaxBackground.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\PauseMenu.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\PauseMenu.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Platform.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Platform.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\Player.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\Player.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\RainSystem.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\RainSystem.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\SoundManager.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\SoundManager.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\UI.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\UI.obj
+E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\src\WinningScreen.cpp;E:\Game Design\iTi\MiniJam\ESC-CTRL-main\ESC-CTRL-main\ITI Mini Jam\x64\Debug\WinningScreen.obj
