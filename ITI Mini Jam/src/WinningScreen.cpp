@@ -8,6 +8,7 @@ WinningScreen::WinningScreen(float width, float height, SoundManager* sm)
 {
     soundMgr = sm;
 
+    // -------- Background --------
     if (!bgTexture.loadFromFile("Assets/PauseMenu/PauseMenuBG.png"))
         cerr << "Failed to load Winning BG\n";
 
@@ -17,12 +18,14 @@ WinningScreen::WinningScreen(float width, float height, SoundManager* sm)
         height / bgTexture.getSize().y
     );
 
+    // --- SCALING FIX ---
     float scaleX = width / 1920.f;
     float scaleY = height / 1080.f;
 
     float cx = width / 2.f;
     float cy = height / 2.f;
 
+    // -------- Buttons --------
     replayBtn = UIButton(
         { 422.f * scaleX, 142.f * scaleY },
         { cx, cy - (60.f * scaleY) }
@@ -33,20 +36,24 @@ WinningScreen::WinningScreen(float width, float height, SoundManager* sm)
         { cx, cy + (120.f * scaleY) }
     );
 
+    // -------- Congratulations Text --------
     if (!winFont.loadFromFile("Assets/Fonts/MyFont.ttf"))
         cerr << "Failed to load win font\n";
 
     congratsText.setFont(winFont);
     congratsText.setString("CONGRATULATIONS!");
 
+    // Scale Font Size
     congratsText.setCharacterSize(static_cast<unsigned int>(64 * scaleY));
     congratsText.setFillColor(Color::Black);
 
     FloatRect tb = congratsText.getLocalBounds();
     congratsText.setOrigin(tb.width / 2.f, tb.height / 2.f);
 
+    // Scale Position offset
     congratsText.setPosition(cx, cy - (240.f * scaleY));
 
+    // -------- Load Textures --------
     tReplay.loadFromFile("Assets/Buttons/ReplayButton.png");
     tReplayHover.loadFromFile("Assets/Buttons/ReplayButton_hover.png");
     replayBtn.rect.setTexture(&tReplay);
@@ -60,6 +67,7 @@ int WinningScreen::update(RenderWindow& window, const Event& ev)
 {
     Vector2i mousePos = Mouse::getPosition(window);
 
+    // -------- Hover logic --------
     if (replayBtn.contains(mousePos)) {
         if (tReplayHover.getSize().x)
             replayBtn.rect.setTexture(&tReplayHover);
@@ -76,16 +84,17 @@ int WinningScreen::update(RenderWindow& window, const Event& ev)
         menuBtn.rect.setTexture(&tMenu);
     }
 
+    // -------- Click logic --------
     if (ev.type == Event::MouseButtonPressed &&
         ev.mouseButton.button == Mouse::Left)
     {
         if (replayBtn.contains(mousePos)) {
             if (soundMgr) soundMgr->playSFX("button_click");
-            return 1; 
+            return 1; // Replay
         }
         if (menuBtn.contains(mousePos)) {
             if (soundMgr) soundMgr->playSFX("button_click");
-            return 2; 
+            return 2; // Back to Menu
         }
     }
 

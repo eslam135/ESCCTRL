@@ -27,7 +27,6 @@ Menu::Menu(float WIDTH, float HEIGHT, SoundManager* sm)
     Vector2f optionsBtnSize(422.f * scaleX, 138.f * scaleY);
     Vector2f exitBtnSize(367.f * scaleX, 141.f * scaleY);
 
-
     btnStart = UIButton(startBtnSize, {
         (WIDTH / 2.f) + (469.f * scaleX),
         (HEIGHT / 2.f) - (59.f * scaleY)
