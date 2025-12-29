@@ -6,32 +6,36 @@ using namespace std;
 
 GameOverScreen::GameOverScreen(float width, float height)
 {
-    // -------- Overlay --------
     overlay.setSize({ width, height });
     overlay.setFillColor(Color(0, 0, 0, 180));
 
-    // -------- Font & Title --------
-    if (!font.loadFromFile("Assets/Fonts/MyFont.ttf"))
-        cerr << "Warning: MyFont.ttf not found for GameOver screen\n";
+    float scaleX = width / 1920.f;
+    float scaleY = height / 1080.f;
 
     float cx = width / 2.f;
     float cy = height / 2.f;
 
-    // -------- Replay Button --------
-    restartButton = UIButton({ 426.f, 170.f }, { cx, cy });
+    if (!font.loadFromFile("Assets/Fonts/MyFont.ttf"))
+        cerr << "Warning: MyFont.ttf not found for GameOver screen\n";
+
+
+    restartButton = UIButton(
+        { 426.f * scaleX, 170.f * scaleY },
+        { cx, cy }
+    );
 
     if (tReplay.loadFromFile("Assets/Buttons/ReplayButton.png"))
         restartButton.rect.setTexture(&tReplay);
 
     tReplayHover.loadFromFile("Assets/Buttons/ReplayButton_hover.png");
-    
+
 }
 
 bool GameOverScreen::update(RenderWindow& window, const Event& ev)
 {
     Vector2i mousePos = Mouse::getPosition(window);
     mousePos.x += 120;
-    // -------- Hover --------
+
     if (restartButton.contains(mousePos)) {
         if (tReplayHover.getSize().x)
             restartButton.rect.setTexture(&tReplayHover);
@@ -40,12 +44,11 @@ bool GameOverScreen::update(RenderWindow& window, const Event& ev)
         restartButton.rect.setTexture(&tReplay);
     }
 
-    // -------- Click --------
     if (ev.type == Event::MouseButtonPressed &&
         ev.mouseButton.button == Mouse::Left)
     {
         if (restartButton.contains(mousePos)) {
-            return true; // restart game
+            return true; 
         }
     }
 
@@ -61,7 +64,7 @@ void GameOverScreen::draw(RenderWindow& window, const View& view)
     overlay.setOrigin(size.x / 2.f, size.y / 2.f);
     overlay.setPosition(center);
 
-	restartButton.rect.setPosition(center);
+    restartButton.rect.setPosition(center);
 
     window.draw(overlay);
     restartButton.draw(window);

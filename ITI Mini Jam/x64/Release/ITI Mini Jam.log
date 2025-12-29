@@ -1,7 +1,11 @@
-﻿  Game.cpp
+﻿  GameOverScreen.cpp
+  Menu.cpp
+C:\Users\mahmo\source\repos\ESCCTRL\ITI Mini Jam\src\Menu.cpp(81,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  PauseMenu.cpp
+  WinningScreen.cpp
   Generating code
-  2 of 1587 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  8 of 1587 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ITI Mini Jam.vcxproj -> C:\Users\mahmo\source\repos\ESCCTRL\x64\Release\ITI Mini Jam.exe

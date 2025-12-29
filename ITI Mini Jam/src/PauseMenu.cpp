@@ -7,7 +7,6 @@ PauseMenu::PauseMenu(float width, float height, SoundManager* sm)
 {
     soundMgr = sm;
 
-    // -------- Background --------
     if (!bgTexture.loadFromFile("Assets/PauseMenu/PauseMenuBG.png"))
         std::cerr << "Failed to load pause background\n";
 
@@ -17,14 +16,23 @@ PauseMenu::PauseMenu(float width, float height, SoundManager* sm)
         height / bgTexture.getSize().y
     );
 
+    float scaleX = width / 1920.f;
+    float scaleY = height / 1080.f;
+
     float cx = width / 2.f;
     float cy = height / 2.f;
 
-    // -------- Buttons --------
-    resumeBtn = UIButton({ 422.f, 142.f }, { cx, cy - 100.f });
-    exitBtn = UIButton({ 367.f, 141.f }, { cx, cy + 100.f });
 
-    // -------- Load textures --------
+    resumeBtn = UIButton(
+        { 422.f * scaleX, 142.f * scaleY },
+        { cx, cy - (100.f * scaleY) }
+    );
+
+    exitBtn = UIButton(
+        { 367.f * scaleX, 141.f * scaleY },
+        { cx, cy + (100.f * scaleY) }
+    );
+
     if (tResume.loadFromFile("Assets/Buttons/ResumeButton.png"))
         resumeBtn.rect.setTexture(&tResume);
 
@@ -40,7 +48,6 @@ int PauseMenu::update(RenderWindow& window, const Event& ev)
 {
     Vector2i mousePos = Mouse::getPosition(window);
 
-    // -------- Hover logic --------
     if (resumeBtn.contains(mousePos)) {
         if (tResumeHover.getSize().x)
             resumeBtn.rect.setTexture(&tResumeHover);
@@ -57,17 +64,16 @@ int PauseMenu::update(RenderWindow& window, const Event& ev)
         exitBtn.rect.setTexture(&tExit);
     }
 
-    // -------- Click logic --------
     if (ev.type == Event::MouseButtonPressed &&
         ev.mouseButton.button == Mouse::Left)
     {
         if (resumeBtn.contains(mousePos)) {
             if (soundMgr) soundMgr->playSFX("button_click");
-            return 1; // Resume
+            return 1; 
         }
         if (exitBtn.contains(mousePos)) {
             if (soundMgr) soundMgr->playSFX("button_click");
-            return 2; // Exit to menu
+            return 2; 
         }
     }
 

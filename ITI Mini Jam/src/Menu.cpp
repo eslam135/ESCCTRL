@@ -1,10 +1,10 @@
 #include "../include/Menu.h"
 
-#include <../include/filesystem>
-#include <../include/thread>
-#include <../include/vector>
-#include <../include/algorithm>
-#include <../include/iostream>
+#include <filesystem>
+#include <thread>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -19,13 +19,31 @@ Menu::Menu(float WIDTH, float HEIGHT, SoundManager* sm)
         WIDTH, HEIGHT
     );
 
-    Vector2f startBtnSize(423.f, 169.f);
-	Vector2f optionsBtnSize(422.f, 138.f);
-	Vector2f exitBtnSize(367.f, 141.f);
-    btnStart = UIButton(startBtnSize, { (WIDTH / 2.f) + 469.f, (HEIGHT / 2.f ) - 59.f });
-    btnOptions = UIButton(optionsBtnSize, { (WIDTH / 2.f) + 420.f, (HEIGHT / 2.f) + 110.f });
-    btnExit = UIButton(exitBtnSize, { (WIDTH / 2.f) + 469.f, (HEIGHT / 2.f) + 250.f });
 
+    float scaleX = WIDTH / 1920.f;
+    float scaleY = HEIGHT / 1080.f;
+
+    Vector2f startBtnSize(423.f * scaleX, 169.f * scaleY);
+    Vector2f optionsBtnSize(422.f * scaleX, 138.f * scaleY);
+    Vector2f exitBtnSize(367.f * scaleX, 141.f * scaleY);
+
+
+    btnStart = UIButton(startBtnSize, {
+        (WIDTH / 2.f) + (469.f * scaleX),
+        (HEIGHT / 2.f) - (59.f * scaleY)
+        });
+
+    btnOptions = UIButton(optionsBtnSize, {
+        (WIDTH / 2.f) + (420.f * scaleX),
+        (HEIGHT / 2.f) + (110.f * scaleY)
+        });
+
+    btnExit = UIButton(exitBtnSize, {
+        (WIDTH / 2.f) + (469.f * scaleX),
+        (HEIGHT / 2.f) + (250.f * scaleY)
+        });
+
+    // Load Textures
     if (tStart.loadFromFile("Assets/Buttons/start.png"))
         btnStart.rect.setTexture(&tStart);
 
