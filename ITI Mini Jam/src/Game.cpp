@@ -78,7 +78,7 @@ Game::Game(float W, float H, SoundManager* sm)
 
 
     
-    //player.setPosition(9950.f, HEIGHT - 400.f); // gravity switch part
+    //player.setPosition(6750.f, HEIGHT - 400.f); // gravity switch part
     //player.setPosition(13200.f, HEIGHT - 400.f); // frog shapeshift part
     //player.setPosition(17900.f, HEIGHT - 400.f); // win sign part
 
@@ -175,8 +175,8 @@ void Game::draw(RenderWindow& window)
     bg.draw(window);
     ground.draw(window);
     for (auto& p : treesProp) if (isVisible(p)) window.draw(p);
-    BGground.draw(window);
     for (auto& o : obstacles) o.draw(window);
+    BGground.draw(window);
 
     for (auto& plat : platforms) plat.draw(window);
 
